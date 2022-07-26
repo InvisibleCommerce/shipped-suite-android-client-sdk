@@ -54,7 +54,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // WidgetView offers
-//        binding.widgetView.offers = WidgetViewOffers.GREEN_AND_SHIELD
+        binding.widgetView.offers = WidgetViewOffers.GREEN_AND_SHIELD
 
         // WidgetView callback
         binding.widgetView.callback = object : WidgetView.Callback<BigDecimal> {
