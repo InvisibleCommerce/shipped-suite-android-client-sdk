@@ -36,6 +36,14 @@ enum class WidgetViewOffers(val value: String) {
             GREEN_AND_SHIELD -> context.getString(R.string.green_shield_desc)
         }
     }
+
+    fun widgetFee(offers: ShippedOffers): BigDecimal {
+        return when(this) {
+            GREEN -> offers.greenFee
+            SHIELD -> offers.shieldFee
+            GREEN_AND_SHIELD -> offers.greenFee + offers.shieldFee
+        }
+    }
 }
 
 /**
@@ -110,7 +118,7 @@ class WidgetView @JvmOverloads constructor(
                 result.fold(
                     onSuccess = {
                         onResult(ShippedOffers = it)
-                        binding.fee.text = NumberFormat.getCurrencyInstance().format(it.shieldFee)
+                        binding.fee.text = NumberFormat.getCurrencyInstance().format(offers.widgetFee(it))
                     },
                     onFailure = {
                         onResult(error = handleError(it))
@@ -123,10 +131,15 @@ class WidgetView @JvmOverloads constructor(
     private fun onResult(ShippedOffers: ShippedOffers? = null, error: ShippedException? = null) {
         when {
             ShippedOffers != null -> {
-                cacheResult = mutableMapOf(SHIELD_FEE_KEY to ShippedOffers.shieldFee, GREEN_FEE_KEY to ShippedOffers.greenFee)
+                if ((offers == WidgetViewOffers.SHIELD || offers == WidgetViewOffers.GREEN_AND_SHIELD) && ShippedOffers.shieldFee != null) {
+                    cacheResult[SHIELD_FEE_KEY] = ShippedOffers.shieldFee
+                }
+                if ((offers == WidgetViewOffers.GREEN || offers == WidgetViewOffers.GREEN_AND_SHIELD) && ShippedOffers.greenFee != null) {
+                    cacheResult[GREEN_FEE_KEY] = ShippedOffers.greenFee
+                }
             }
             error != null -> {
-                cacheResult = mutableMapOf(ERROR_KEY to error)
+                cacheResult[ERROR_KEY] = error
             }
         }
         cacheResult[IS_SELECTED_KEY] = widgetViewIsSelected
