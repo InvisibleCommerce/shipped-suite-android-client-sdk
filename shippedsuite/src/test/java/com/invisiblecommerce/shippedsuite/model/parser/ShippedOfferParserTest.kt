@@ -29,6 +29,7 @@ class ShippedOffersParserTest {
                 "storefront_id": "test-paws.myshopify.com",
                 "order_value": "129.99",
                 "shield_fee": "2.27",
+                "green_fee": "0.39",
                 "offered_at": "2022-05-18T18:03:22.252-07:00"
                 }
             """.trimIndent()
@@ -55,6 +56,7 @@ class ShippedOffersParserTest {
                 "storefront_id": "test-paws.myshopify.com",
                 "order_value": "129.99",
                 "shield_fee": "2.27",
+                "green_fee": "0.39",
                 "offered_at": "2022-05-18T18:03:22.252-07:00"
                 }
             """.trimIndent()
