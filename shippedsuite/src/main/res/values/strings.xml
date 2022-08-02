@@ -7,14 +7,25 @@
     <string name="green_shield_title">Shipped Green + Shield</string>
     <string name="green_shield_desc">Carbon Offset + Package Assurance</string>
 
-    <string name="shield_learn_more">Learn More</string>
-    <string name="shield_got_it">Got it!</string>
-    <string name="shield_fee_title">Shipped Shield Premium Package Assurance</string>
-    <string name="shield_fee_sub_title">Have peace of mind and instantly resolve unexpected issues hassle-free.</string>
-    <string name="shield_fee_info_one">Instant premium package assurance for damage, loss, or theft.</string>
-    <string name="shield_fee_info_two">Save time and headache reporting unexpected shipment issues.</string>
-    <string name="shield_fee_info_three">Easily resolve issues and get a replacement or refund, hassle-free.</string>
-    <string name="shield_fee_message">Shipped offers shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier\'s proof of delivery where Shipped monitors the shipment.</string>
-    <string name="shield_fee_default">N/A</string>
+    <string name="learn_more_title_green">Shipped Green Carbon Neutral Shipment</string>
+    <string name="learn_more_title_shield">Shipped Shield Premium Package Assurance</string>
+    <string name="learn_more_title_green_shield">Sustainable Package Assurance</string>
+
+    <string name="learn_more_subtitle_green">Fight climate change while supporting sustainable shopping</string>
+    <string name="learn_more_subtitle_shield">Have peace of mind and instantly resolve unexpected issues hassle-free</string>
+    <string name="learn_more_subtitle_green_shield">Protect your order with premium package assurance and carbon neutral shipment</string>
+
+    <string name="shipped_default_tip_0">Instant premium package assurance for damage, loss, or theft</string>
+    <string name="shipped_default_tip_1">Save time and headache reporting unexpected shipment issues</string>
+    <string name="shipped_default_tip_2">Easily resolve issues and get a replacement or refund, hassle-free</string>
+
+    <string name="shipped_green_tip_0">Neutralize the carbon emissions from delivering this order</string>
+    <string name="shipped_green_tip_1">Get certified carbon credits recorded at the project carbon registry</string>
+    <string name="shipped_green_tip_2">Track your certificates and see your personal climate impact</string>
+
+    <string name="shipped_learn_more">Learn More</string>
+    <string name="shipped_got_it">Got it!</string>
+    <string name="shipped_tip_message">Shipped offers shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier\'s proof of delivery where Shipped monitors the shipment.</string>
+    <string name="shipped_fee_default">N/A</string>
 
 </resources>
