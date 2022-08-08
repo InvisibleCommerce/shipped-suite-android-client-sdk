@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#12747480">
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/shipped_action_next"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:background="@drawable/shipped_button_solid"
-        android:gravity="center"
-        android:padding="0dp"
-        android:text="@string/shipped_got_it"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    android:background="#ffffff">
 
     <FrameLayout
         android:id="@+id/shipped_logo_layout"
@@ -43,10 +28,9 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/shipped_action_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shipped_logo_layout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,9 +41,11 @@
                 android:id="@+id/shipped_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:background="@android:color/white"
                 android:paddingVertical="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -72,7 +58,8 @@
                     android:gravity="center"
                     android:text="@string/learn_more_title_shield"
                     android:textColor="#000000"
-                    android:textSize="20sp"
+                    android:textFontWeight="700"
+                    android:textSize="28sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -83,84 +70,136 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="24dp"
-                    android:alpha="0.6"
                     android:gravity="center"
                     android:lineSpacingExtra="2dp"
                     android:paddingHorizontal="16dp"
                     android:text="@string/learn_more_subtitle_shield"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="17sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/shipped_fee_title" />
 
+                <ImageView
+                    android:id="@+id/tip_tick_one"
+                    android:layout_width="15dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="32dp"
+                    app:layout_constraintEnd_toStartOf="@+id/shipped_tip_info_one"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/shipped_tip_info_one"
+                    app:srcCompat="@drawable/tick" />
+
                 <TextView
-                    android:id="@+id/shipped_fee_info_one"
-                    android:layout_width="match_parent"
+                    android:id="@+id/shipped_tip_info_one"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="24dp"
-                    android:drawablePadding="12dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginEnd="32dp"
                     android:gravity="center_vertical"
                     android:text="@string/shipped_default_tip_0"
                     android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:drawableLeftCompat="@drawable/tick"
+                    android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tip_tick_one"
                     app:layout_constraintTop_toBottomOf="@id/shipped_fee_sub_title" />
 
+                <ImageView
+                    android:id="@+id/tip_tick_two"
+                    android:layout_width="15dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="32dp"
+                    app:layout_constraintEnd_toStartOf="@+id/shipped_tip_info_two"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/shipped_tip_info_two"
+                    app:srcCompat="@drawable/tick" />
+
                 <TextView
-                    android:id="@+id/shipped_fee_info_two"
-                    android:layout_width="match_parent"
+                    android:id="@+id/shipped_tip_info_two"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="16dp"
-                    android:drawablePadding="12dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="32dp"
                     android:gravity="center_vertical"
                     android:text="@string/shipped_default_tip_1"
                     android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:drawableLeftCompat="@drawable/tick"
+                    android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tip_tick_two"
+                    app:layout_constraintTop_toBottomOf="@id/shipped_tip_info_one" />
+
+                <ImageView
+                    android:id="@+id/tip_tick_three"
+                    android:layout_width="15dp"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="32dp"
+                    app:layout_constraintEnd_toStartOf="@+id/shipped_tip_info_three"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/shipped_fee_info_one" />
+                    app:layout_constraintTop_toTopOf="@+id/shipped_tip_info_three"
+                    app:srcCompat="@drawable/tick" />
 
                 <TextView
-                    android:id="@+id/shipped_fee_info_three"
-                    android:layout_width="match_parent"
+                    android:id="@+id/shipped_tip_info_three"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="16dp"
-                    android:drawablePadding="12dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="32dp"
                     android:gravity="top"
                     android:text="@string/shipped_default_tip_2"
                     android:textColor="#000000"
-                    android:textSize="14sp"
-                    app:drawableLeftCompat="@drawable/tick"
+                    android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/shipped_fee_info_two" />
+                    app:layout_constraintStart_toEndOf="@+id/tip_tick_three"
+                    app:layout_constraintTop_toBottomOf="@id/shipped_tip_info_two" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/shipped_fee_message"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/shipped_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:alpha="0.6"
-                android:gravity="center"
-                android:lineSpacingExtra="2dp"
-                android:text="@string/shipped_tip_message"
-                android:textColor="#993C3C43"
-                android:textSize="12sp"
+                android:layout_height="match_parent"
+                android:background="#F4F4F5"
+                android:padding="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/shipped_header" />
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shipped_header">
+
+                <TextView
+                    android:id="@+id/shipped_fee_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/shipped_tip_message"
+                    android:textColor="#993C3C43"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/shipped_action_next"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/shipped_action_next"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/shipped_button_solid"
+                    android:gravity="center"
+                    android:text="@string/shipped_got_it"
+                    android:textColor="#000000"
+                    android:textFontWeight="600"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </ScrollView>
 

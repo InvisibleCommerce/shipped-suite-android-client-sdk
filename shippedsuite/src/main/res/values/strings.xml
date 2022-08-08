@@ -25,7 +25,7 @@
 
     <string name="shipped_learn_more">Learn More</string>
     <string name="shipped_got_it">Got it!</string>
-    <string name="shipped_tip_message">Shipped offers shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier\'s proof of delivery where Shipped monitors the shipment.</string>
+    <string name="shipped_tip_message">Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment.</string>
     <string name="shipped_fee_default">N/A</string>
 
 </resources>
