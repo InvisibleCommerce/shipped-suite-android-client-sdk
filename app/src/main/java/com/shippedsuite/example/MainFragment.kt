@@ -13,10 +13,10 @@ import android.widget.TextView.OnEditorActionListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.shippedsuite.example.databinding.FragmentMainBinding
 import com.invisiblecommerce.shippedsuite.widget.LearnMoreDialog
 import com.invisiblecommerce.shippedsuite.widget.WidgetView
 import com.invisiblecommerce.shippedsuite.widget.WidgetViewOffers
+import com.shippedsuite.example.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import java.math.BigDecimal
@@ -54,7 +54,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // WidgetView offers
-        binding.widgetView.offers = WidgetViewOffers.GREEN_AND_SHIELD
+        binding.widgetView.offers = WidgetViewOffers.GREEN
 
         // WidgetView callback
         binding.widgetView.callback = object : WidgetView.Callback<BigDecimal> {
@@ -106,7 +106,7 @@ class MainFragment : Fragment() {
 
         // Display learn more model manually
         binding.displayLearnMoreModel.setOnClickListener {
-            LearnMoreDialog.show(requireContext())
+            LearnMoreDialog.show(requireContext(), WidgetViewOffers.GREEN_AND_SHIELD)
         }
 
         // Get offers fee manually

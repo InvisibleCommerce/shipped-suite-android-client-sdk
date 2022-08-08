@@ -2,6 +2,7 @@ package com.invisiblecommerce.shippedsuite.widget
 
 import android.content.Context
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -38,11 +39,67 @@ enum class WidgetViewOffers(val value: String) {
     }
 
     fun widgetFee(offers: ShippedOffers): BigDecimal {
-        return when(this) {
+        return when (this) {
             GREEN -> offers.greenFee
             SHIELD -> offers.shieldFee
             GREEN_AND_SHIELD -> offers.greenFee + offers.shieldFee
         }
+    }
+
+    fun learnMoreLogo(context: Context): Drawable? {
+        return when (this) {
+            GREEN -> context.getDrawable(R.drawable.green_logo)
+            SHIELD -> context.getDrawable(R.drawable.shield_logo)
+            GREEN_AND_SHIELD -> context.getDrawable(R.drawable.green_shield_logo)
+        }
+    }
+
+    fun learnMoreTitle(context: Context): String {
+        return when (this) {
+            GREEN -> context.getString(R.string.learn_more_title_green)
+            SHIELD -> context.getString(R.string.learn_more_title_shield)
+            GREEN_AND_SHIELD -> context.getString(R.string.learn_more_title_green_shield)
+        }
+    }
+
+    fun learnMoreSubtitle(context: Context): String {
+        return when (this) {
+            GREEN -> context.getString(R.string.learn_more_subtitle_green)
+            SHIELD -> context.getString(R.string.learn_more_subtitle_shield)
+            GREEN_AND_SHIELD -> context.getString(R.string.learn_more_subtitle_green_shield)
+        }
+    }
+
+    fun learnMoreBanner(context: Context): Drawable? {
+        return when (this) {
+            GREEN -> context.getDrawable(R.drawable.green_banner)
+            SHIELD -> null
+            GREEN_AND_SHIELD -> context.getDrawable(R.drawable.green_shield_banner)
+        }
+    }
+
+    fun learnMoreTip0(context: Context): String {
+        if (this == WidgetViewOffers.GREEN) {
+            return context.getString(R.string.shipped_green_tip_0)
+        }
+
+        return context.getString(R.string.shipped_default_tip_0)
+    }
+
+    fun learnMoreTip1(context: Context): String {
+        if (this == WidgetViewOffers.GREEN) {
+            return context.getString(R.string.shipped_green_tip_1)
+        }
+
+        return context.getString(R.string.shipped_default_tip_1)
+    }
+
+    fun learnMoreTip2(context: Context): String {
+        if (this == WidgetViewOffers.GREEN) {
+            return context.getString(R.string.shipped_green_tip_2)
+        }
+
+        return context.getString(R.string.shipped_default_tip_2)
     }
 }
 
@@ -67,7 +124,6 @@ class WidgetView @JvmOverloads constructor(
     }
 
     var offers: WidgetViewOffers = WidgetViewOffers.GREEN
-        get() = field
         set(value) {
             field = value
             binding.widgetTitle.text = offers.widgetTitle(context)
@@ -91,7 +147,7 @@ class WidgetView @JvmOverloads constructor(
     init {
         binding.learnMore.paintFlags = binding.learnMore.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         binding.learnMore.setOnClickListener {
-            LearnMoreDialog.show(context)
+            LearnMoreDialog.show(context, offers)
         }
         binding.shippedSwitch.isChecked = widgetViewIsSelected
         binding.shippedSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -118,7 +174,8 @@ class WidgetView @JvmOverloads constructor(
                 result.fold(
                     onSuccess = {
                         onResult(ShippedOffers = it)
-                        binding.fee.text = NumberFormat.getCurrencyInstance().format(offers.widgetFee(it))
+                        binding.fee.text =
+                            NumberFormat.getCurrencyInstance().format(offers.widgetFee(it))
                     },
                     onFailure = {
                         onResult(error = handleError(it))
