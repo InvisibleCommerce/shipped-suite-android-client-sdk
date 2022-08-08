@@ -198,10 +198,107 @@
                     android:layout_height="1dp"
                     android:layout_marginVertical="16dp"
                     android:background="#C1C1C1"
-                    app:layout_constraintBottom_toTopOf="@+id/shipped_done"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/shipped_message" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/shipped_message"
+                    app:layout_constraintBottom_toTopOf="@id/links" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/links"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/separator"
+                    app:layout_constraintBottom_toTopOf="@+id/shipped_done" >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/terms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:flow_verticalAlign="center"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/copyright" >
+
+                        <TextView
+                            android:id="@+id/report_an_issue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="@string/report_an_issue"
+                            android:textColor="#993C3C43"
+                            android:textSize="10sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/separator_0" />
+
+                        <View
+                            android:id="@+id/separator_0"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#C1C1C1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/report_an_issue"
+                            app:layout_constraintEnd_toStartOf="@id/terms_of_service" />
+
+                        <TextView
+                            android:id="@+id/terms_of_service"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/terms_of_service"
+                            android:textColor="#993C3C43"
+                            android:textSize="10sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/separator_0"
+                            app:layout_constraintEnd_toStartOf="@id/privacy_policy" />
+
+                        <View
+                            android:id="@+id/separator_1"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#C1C1C1"
+                            android:layout_marginHorizontal="4dp"
+                            app:layout_constraintStart_toEndOf="@id/terms_of_service"
+                            app:layout_constraintEnd_toStartOf="@id/privacy_policy" />
+
+                        <TextView
+                            android:id="@+id/privacy_policy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:lineSpacingExtra="2dp"
+                            android:text="@string/privacy_policy"
+                            android:textColor="#993C3C43"
+                            android:textSize="10sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/separator_1"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/copyright"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:lineSpacingExtra="2dp"
+                        android:text="@string/copyright"
+                        android:textColor="#993C3C43"
+                        android:textSize="10sp"
+                        app:layout_constraintTop_toBottomOf="@id/terms"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/shipped_done"
@@ -214,8 +311,10 @@
                     android:textColor="#000000"
                     android:textFontWeight="600"
                     android:textSize="17sp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/links"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

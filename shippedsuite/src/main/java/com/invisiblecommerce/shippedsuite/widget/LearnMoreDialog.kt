@@ -23,6 +23,19 @@ class LearnMoreDialog internal constructor(context: Context) :
         super.onCreate(savedInstanceState)
         setContentView(binding.getRoot())
         findViewById<Button>(R.id.shipped_done)?.setOnClickListener { dismiss() }
+
+        binding.reportAnIssue.setOnClickListener {
+            Log.d("", "Report an issue is clicked.")
+        }
+        binding.termsOfService.setOnClickListener {
+            Log.d("", "Terms of service is clicked.")
+        }
+        binding.privacyPolicy.setOnClickListener {
+            Log.d("", "Privacy policy is clicked.")
+        }
+        binding.copyright.setOnClickListener {
+            Log.d("", "Copyright is clicked.")
+        }
     }
 
     var offers: WidgetViewOffers = WidgetViewOffers.GREEN
