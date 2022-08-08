@@ -10,7 +10,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.invisiblecommerce.shippedsuite.R
-import com.invisiblecommerce.shippedsuite.databinding.DialogLearnMoreBinding
+import com.invisiblecommerce.shippedsuite.databinding.LearnMoreDialogBinding
 
 /**
 `LearnMoreDialog` is a dialog to show the learn more page.
@@ -48,14 +48,15 @@ class LearnMoreDialog internal constructor(context: Context) :
                     Log.d("", "Banner is clicked.")
                 }
             } else if (value == WidgetViewOffers.GREEN_AND_SHIELD) {
-                params.height = context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
+                params.height =
+                    context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
             }
             binding.banner.layoutParams = params
             binding.banner.setImageDrawable(value.learnMoreBanner(context))
         }
 
     private val binding by lazy {
-        DialogLearnMoreBinding.inflate(LayoutInflater.from(context))
+        LearnMoreDialogBinding.inflate(LayoutInflater.from(context))
     }
 
     companion object {

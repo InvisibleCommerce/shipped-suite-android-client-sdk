@@ -10,7 +10,7 @@ import com.invisiblecommerce.shippedsuite.APIRepository
 import com.invisiblecommerce.shippedsuite.R
 import com.invisiblecommerce.shippedsuite.ShippedAPIRepository
 import com.invisiblecommerce.shippedsuite.ShippedPlugins.widgetViewIsSelected
-import com.invisiblecommerce.shippedsuite.databinding.ViewShieldWidgetBinding
+import com.invisiblecommerce.shippedsuite.databinding.ShippedWidgetViewBinding
 import com.invisiblecommerce.shippedsuite.exception.APIException
 import com.invisiblecommerce.shippedsuite.exception.ShippedException
 import com.invisiblecommerce.shippedsuite.model.ShippedOffers
@@ -141,7 +141,7 @@ class WidgetView @JvmOverloads constructor(
     }
 
     private val binding by lazy {
-        ViewShieldWidgetBinding.inflate(LayoutInflater.from(context), this, true)
+        ShippedWidgetViewBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
     init {
