@@ -1,4 +1,4 @@
-package com.invisiblecommerce.shippedsuite.widget
+package com.invisiblecommerce.shippedsuite.ui
 
 import android.content.Context
 import android.content.Intent
@@ -27,7 +27,7 @@ class LearnMoreDialog internal constructor(context: Context) :
         findViewById<Button>(R.id.shipped_done)?.setOnClickListener { dismiss() }
 
         binding.reportAnIssue.setOnClickListener {
-            if (offers == WidgetViewOffers.GREEN) {
+            if (type == ShippedSuiteType.GREEN) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(DOWNLOAD_SHIPPED_URL))
                 startActivity(context, intent, null)
             } else {
@@ -45,7 +45,7 @@ class LearnMoreDialog internal constructor(context: Context) :
         }
     }
 
-    var offers: WidgetViewOffers = WidgetViewOffers.GREEN
+    var type: ShippedSuiteType = ShippedSuiteType.GREEN
         set(value) {
             field = value
             binding.shippedLogo.setImageDrawable(value.learnMoreLogo(context))
@@ -54,7 +54,7 @@ class LearnMoreDialog internal constructor(context: Context) :
             binding.shippedTipInfoOne.text = value.learnMoreTip0(context)
             binding.shippedTipInfoTwo.text = value.learnMoreTip1(context)
             binding.shippedTipInfoThree.text = value.learnMoreTip2(context)
-            if (value == WidgetViewOffers.SHIELD) {
+            if (value == ShippedSuiteType.SHIELD) {
                 binding.banner.visibility = View.GONE
                 binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.light_gray))
             } else {
@@ -62,14 +62,14 @@ class LearnMoreDialog internal constructor(context: Context) :
                 binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.white))
             }
             val params = binding.banner.layoutParams
-            if (value == WidgetViewOffers.GREEN) {
+            if (value == ShippedSuiteType.GREEN) {
                 params.height = context.resources.getDimension(R.dimen.green_banner_height).toInt()
                 binding.banner.setOnClickListener {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(SHIPPED_GREEN_URL))
                     startActivity(context, intent, null)
                 }
                 binding.reportAnIssue.text = "Download Shipped"
-            } else if (value == WidgetViewOffers.GREEN_AND_SHIELD) {
+            } else if (value == ShippedSuiteType.GREEN_AND_SHIELD) {
                 params.height =
                     context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
             }
@@ -88,9 +88,9 @@ class LearnMoreDialog internal constructor(context: Context) :
         private const val PRIVACY_POLICY_URL = "https://www.invisiblecommerce.com/privacy"
         private const val SHIPPED_GREEN_URL = "https://app.shippedapp.co/green"
 
-        fun show(context: Context, offers: WidgetViewOffers) {
+        fun show(context: Context, offers: ShippedSuiteType) {
             val dialog = LearnMoreDialog(context)
-            dialog.offers = offers
+            dialog.type = offers
             dialog.show()
             dialog.window?.setLayout(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,

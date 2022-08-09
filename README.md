@@ -80,7 +80,7 @@ binding.widgetView.callback = object : WidgetView.Callback<BigDecimal> {
 Widget response {shieldFee=2.27, isSelected=false}
 ```
 
-Within the callback, implement any logic necessary to add or remove Shield or Green from the cart, based on whether `WidgetViewIsSelectedKey` is true or false. 
+Within the callback, implement any logic necessary to add or remove Shield or Green from the cart, based on whether `isSelected` is true or false. 
 
 ### Customization
 
@@ -106,7 +106,7 @@ ShippedSuite().getOffersFee(
 - Display learn more modal
 
 ```kotlin
-LearnMoreDialog.show(requireContext())
+LearnMoreDialog.show(requireContext(), ShippedSuiteType.GREEN_AND_SHIELD)
 ```
 
 ## License

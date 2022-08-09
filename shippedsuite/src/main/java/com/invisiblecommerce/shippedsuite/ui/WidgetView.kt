@@ -1,4 +1,4 @@
-package com.invisiblecommerce.shippedsuite.widget
+package com.invisiblecommerce.shippedsuite.ui
 
 import android.content.Context
 import android.graphics.Paint
@@ -19,7 +19,7 @@ import kotlinx.coroutines.*
 import java.math.BigDecimal
 import java.text.NumberFormat
 
-enum class WidgetViewOffers(val value: String) {
+enum class ShippedSuiteType(val value: String) {
     GREEN("green"), SHIELD("shield"), GREEN_AND_SHIELD("green_shield");
 
     fun widgetTitle(context: Context): String {
@@ -79,7 +79,7 @@ enum class WidgetViewOffers(val value: String) {
     }
 
     fun learnMoreTip0(context: Context): String {
-        if (this == WidgetViewOffers.GREEN) {
+        if (this == ShippedSuiteType.GREEN) {
             return context.getString(R.string.shipped_green_tip_0)
         }
 
@@ -87,7 +87,7 @@ enum class WidgetViewOffers(val value: String) {
     }
 
     fun learnMoreTip1(context: Context): String {
-        if (this == WidgetViewOffers.GREEN) {
+        if (this == ShippedSuiteType.GREEN) {
             return context.getString(R.string.shipped_green_tip_1)
         }
 
@@ -95,7 +95,7 @@ enum class WidgetViewOffers(val value: String) {
     }
 
     fun learnMoreTip2(context: Context): String {
-        if (this == WidgetViewOffers.GREEN) {
+        if (this == ShippedSuiteType.GREEN) {
             return context.getString(R.string.shipped_green_tip_2)
         }
 
@@ -123,11 +123,11 @@ class WidgetView @JvmOverloads constructor(
         fun onResult(result: Map<String, Any>)
     }
 
-    var offers: WidgetViewOffers = WidgetViewOffers.GREEN
+    var type: ShippedSuiteType = ShippedSuiteType.GREEN
         set(value) {
             field = value
-            binding.widgetTitle.text = offers.widgetTitle(context)
-            binding.widgetDesc.text = offers.widgetDesc(context)
+            binding.widgetTitle.text = type.widgetTitle(context)
+            binding.widgetDesc.text = type.widgetDesc(context)
         }
 
     var callback: Callback<BigDecimal>? = null
@@ -147,7 +147,7 @@ class WidgetView @JvmOverloads constructor(
     init {
         binding.learnMore.paintFlags = binding.learnMore.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         binding.learnMore.setOnClickListener {
-            LearnMoreDialog.show(context, offers)
+            LearnMoreDialog.show(context, type)
         }
         binding.shippedSwitch.isChecked = widgetViewIsSelected
         binding.shippedSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -175,7 +175,7 @@ class WidgetView @JvmOverloads constructor(
                     onSuccess = {
                         onResult(ShippedOffers = it)
                         binding.fee.text =
-                            NumberFormat.getCurrencyInstance().format(offers.widgetFee(it))
+                            NumberFormat.getCurrencyInstance().format(type.widgetFee(it))
                     },
                     onFailure = {
                         onResult(error = handleError(it))
@@ -188,10 +188,10 @@ class WidgetView @JvmOverloads constructor(
     private fun onResult(ShippedOffers: ShippedOffers? = null, error: ShippedException? = null) {
         when {
             ShippedOffers != null -> {
-                if ((offers == WidgetViewOffers.SHIELD || offers == WidgetViewOffers.GREEN_AND_SHIELD) && ShippedOffers.shieldFee != null) {
+                if ((type == ShippedSuiteType.SHIELD || type == ShippedSuiteType.GREEN_AND_SHIELD) && ShippedOffers.shieldFee != null) {
                     cacheResult[SHIELD_FEE_KEY] = ShippedOffers.shieldFee
                 }
-                if ((offers == WidgetViewOffers.GREEN || offers == WidgetViewOffers.GREEN_AND_SHIELD) && ShippedOffers.greenFee != null) {
+                if ((type == ShippedSuiteType.GREEN || type == ShippedSuiteType.GREEN_AND_SHIELD) && ShippedOffers.greenFee != null) {
                     cacheResult[GREEN_FEE_KEY] = ShippedOffers.greenFee
                 }
             }
