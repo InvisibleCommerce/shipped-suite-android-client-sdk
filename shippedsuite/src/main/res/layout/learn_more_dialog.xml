@@ -265,6 +265,8 @@
                             android:layout_height="match_parent"
                             android:background="#C1C1C1"
                             android:layout_marginHorizontal="4dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/terms_of_service"
                             app:layout_constraintEnd_toStartOf="@id/privacy_policy" />
 
