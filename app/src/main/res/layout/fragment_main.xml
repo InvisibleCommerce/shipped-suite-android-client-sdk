@@ -30,7 +30,7 @@
         app:layout_constraintStart_toEndOf="@id/order_value"
         app:layout_constraintTop_toTopOf="@id/order_value" />
 
-    <com.invisiblecommerce.shippedsuite.widget.WidgetView
+    <com.invisiblecommerce.shippedsuite.ui.WidgetView
         android:id="@+id/widget_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

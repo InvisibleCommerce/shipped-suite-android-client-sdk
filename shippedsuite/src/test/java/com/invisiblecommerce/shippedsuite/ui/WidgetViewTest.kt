@@ -1,4 +1,4 @@
-package com.invisiblecommerce.shippedsuite.widget
+package com.invisiblecommerce.shippedsuite.ui
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
@@ -11,16 +11,20 @@ import java.math.BigDecimal
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [29])
-class LearnMoreTest {
+class WidgetViewTest {
 
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
-    private val learnMoreDialog: LearnMoreDialog by lazy {
-        LearnMoreDialog(context)
+    private val widgetView: WidgetView by lazy {
+        WidgetView(context, null)
     }
 
     @Test
-    fun dialogTest() {
-        learnMoreDialog
+    fun widgetTest() {
+        val publicKey = "pk_development_117c2ee46c122fb0ce070fbc984e6a4742040f05a1c73f8a900254a1933a0112"
+        ShippedSuite.configurePublicKey(context, publicKey)
+
+        val defaultOrderValue = BigDecimal.valueOf(129.99)
+        widgetView.updateOrderValue(defaultOrderValue)
     }
 }

@@ -60,6 +60,11 @@ You can put it in the layout file where you want.
     app:layout_constraintTop_toBottomOf="@id/order_value" />
 ```
 
+Setup the type of widget view.
+```kotlin
+binding.widgetView.type = ShippedSuiteType.GREEN
+```
+
 Whenever the cart value changes, update the widget view with the latest cart value. This value should be the sum of the value of the order items, prior to discounts, shipping, taxes, etc. It will request shipped fee automatically.
 
 ```kotlin
@@ -80,7 +85,7 @@ binding.widgetView.callback = object : WidgetView.Callback<BigDecimal> {
 Widget response {shieldFee=2.27, isSelected=false}
 ```
 
-Within the callback, implement any logic necessary to add or remove Shield or Green from the cart, based on whether `WidgetViewIsSelectedKey` is true or false. 
+Within the callback, implement any logic necessary to add or remove Shield or Green from the cart, based on whether `isSelected` is true or false. 
 
 ### Customization
 
@@ -106,7 +111,7 @@ ShippedSuite().getOffersFee(
 - Display learn more modal
 
 ```kotlin
-LearnMoreDialog.show(requireContext())
+LearnMoreDialog.show(requireContext(), ShippedSuiteType.GREEN_AND_SHIELD)
 ```
 
 ## License
