@@ -1,6 +1,7 @@
 package com.invisiblecommerce.shippedsuite.model.parser
 
 import com.invisiblecommerce.shippedsuite.model.ShippedOffers
+import com.invisiblecommerce.shippedsuite.util.JsonUtils
 import org.json.JSONObject
 import java.math.BigDecimal
 
@@ -8,11 +9,15 @@ class ShippedOffersParser : ModelJsonParser<ShippedOffers> {
 
     override fun parse(json: JSONObject): ShippedOffers {
         return ShippedOffers(
-            storefrontId = json.getString(STOREFRONT_ID),
+            storefrontId = json.optString(STOREFRONT_ID),
             orderValue = BigDecimal.valueOf(json.getDouble(ORDER_VALUE)),
-            shieldFee = BigDecimal.valueOf(json.getDouble(SHIELD_FEE)),
-            greenFee = BigDecimal.valueOf(json.getDouble(GREEN_FEE)),
-            offeredAt = dateFormat.parse(json.getString(OFFERED_AT))
+            shieldFee = JsonUtils.optDouble(json, SHIELD_FEE)?.let {
+                BigDecimal.valueOf(it)
+            },
+            greenFee = JsonUtils.optDouble(json, GREEN_FEE)?.let {
+                BigDecimal.valueOf(it)
+            },
+            offeredAt = dateFormat.parse(json.optString(OFFERED_AT))
         )
     }
 

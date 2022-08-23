@@ -70,8 +70,7 @@ class LearnMoreDialog internal constructor(context: Context) :
                 }
                 binding.reportAnIssue.text = "Download Shipped"
             } else if (value == ShippedSuiteType.GREEN_AND_SHIELD) {
-                params.height =
-                    context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
+                params.height = context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
             }
             binding.banner.layoutParams = params
             binding.banner.setImageDrawable(value.learnMoreBanner(context))

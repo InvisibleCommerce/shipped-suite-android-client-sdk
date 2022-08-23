@@ -11,9 +11,9 @@ data class ShippedOffers constructor(
 
     val orderValue: BigDecimal,
 
-    val shieldFee: BigDecimal,
+    val shieldFee: BigDecimal?,
 
-    val greenFee: BigDecimal,
+    val greenFee: BigDecimal?,
 
-    val offeredAt: Date?
+    val offeredAt: Date
 ) : ShippedModel, Parcelable

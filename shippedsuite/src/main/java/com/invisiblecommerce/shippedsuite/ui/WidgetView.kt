@@ -38,12 +38,16 @@ enum class ShippedSuiteType(val value: String) {
         }
     }
 
-    fun widgetFee(offers: ShippedOffers): BigDecimal {
-        return when (this) {
+    fun widgetFee(offers: ShippedOffers, context: Context): String {
+        val fee = when (this) {
             GREEN -> offers.greenFee
             SHIELD -> offers.shieldFee
-            GREEN_AND_SHIELD -> offers.greenFee + offers.shieldFee
+            GREEN_AND_SHIELD -> if (offers.greenFee != null && offers.shieldFee != null) offers.greenFee + offers.shieldFee else null
         }
+        if (fee != null) {
+            return NumberFormat.getCurrencyInstance().format(fee)
+        }
+        return context.getString(R.string.shipped_fee_default)
     }
 
     fun learnMoreLogo(context: Context): Drawable? {
@@ -174,8 +178,7 @@ class WidgetView @JvmOverloads constructor(
                 result.fold(
                     onSuccess = {
                         onResult(ShippedOffers = it)
-                        binding.fee.text =
-                            NumberFormat.getCurrencyInstance().format(type.widgetFee(it))
+                        binding.fee.text = type.widgetFee(it, context)
                     },
                     onFailure = {
                         onResult(error = handleError(it))
