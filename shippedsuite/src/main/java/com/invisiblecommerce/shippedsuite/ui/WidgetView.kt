@@ -134,11 +134,13 @@ class WidgetView @JvmOverloads constructor(
             binding.widgetDesc.text = type.widgetDesc(context)
         }
 
+    var isRespectServer: Boolean = false
+
     var callback: Callback<BigDecimal>? = null
 
     private var job: Job? = null
 
-    private var cacheResult: MutableMap<String, Any> = mutableMapOf()
+    private var cachedOffers: ShippedOffers? = null
 
     private val apiRepository: APIRepository by lazy {
         ShippedAPIRepository()
@@ -156,7 +158,7 @@ class WidgetView @JvmOverloads constructor(
         binding.shippedSwitch.isChecked = widgetViewIsSelected
         binding.shippedSwitch.setOnCheckedChangeListener { _, isChecked ->
             widgetViewIsSelected = isChecked
-            onResult()
+            triggerWidgetChangeWithError()
         }
     }
 
@@ -177,8 +179,7 @@ class WidgetView @JvmOverloads constructor(
             withContext(Dispatchers.Main) {
                 result.fold(
                     onSuccess = {
-                        onResult(ShippedOffers = it)
-                        binding.fee.text = type.widgetFee(it, context)
+                        onResult(offers = it)
                     },
                     onFailure = {
                         onResult(error = handleError(it))
@@ -188,22 +189,92 @@ class WidgetView @JvmOverloads constructor(
         }
     }
 
-    private fun onResult(ShippedOffers: ShippedOffers? = null, error: ShippedException? = null) {
+    private fun onResult(offers: ShippedOffers? = null, error: ShippedException? = null) {
         when {
-            ShippedOffers != null -> {
-                if ((type == ShippedSuiteType.SHIELD || type == ShippedSuiteType.GREEN_AND_SHIELD) && ShippedOffers.shieldFee != null) {
-                    cacheResult[SHIELD_FEE_KEY] = ShippedOffers.shieldFee
-                }
-                if ((type == ShippedSuiteType.GREEN || type == ShippedSuiteType.GREEN_AND_SHIELD) && ShippedOffers.greenFee != null) {
-                    cacheResult[GREEN_FEE_KEY] = ShippedOffers.greenFee
-                }
+            offers != null -> {
+                updateWidgetIfConfigsMismatch(offers)
             }
             error != null -> {
-                cacheResult[ERROR_KEY] = error
+                updateWidgetIfError(error)
             }
         }
-        cacheResult[IS_SELECTED_KEY] = widgetViewIsSelected
-        callback?.onResult(cacheResult)
+    }
+
+    private fun updateWidgetIfConfigsMismatch(offers: ShippedOffers) {
+        var shouldUpdate = false
+        var isShild = type == ShippedSuiteType.SHIELD || type == ShippedSuiteType.GREEN_AND_SHIELD
+        var isGreen = type == ShippedSuiteType.GREEN || type == ShippedSuiteType.GREEN_AND_SHIELD
+
+        if (isShild && !offers.isShieldAvailable()) {
+            isShild = false
+            shouldUpdate = true
+        } else if (!isShild && offers.isShieldAvailable() && isRespectServer) {
+            isShild = true
+            shouldUpdate = true
+        }
+
+        if (isGreen && !offers.isGreenAvailable()) {
+            isGreen = false
+            shouldUpdate = true
+        } else if (!isGreen && offers.isGreenAvailable() && isRespectServer) {
+            isGreen = true
+            shouldUpdate = true
+        }
+
+        if ((!offers.isShieldAvailable() && offers.isGreenAvailable())
+            || (offers.isShieldAvailable() && !offers.isGreenAvailable())
+        ) {
+            if (offers.isShieldAvailable() && !isShild) {
+                isShild = true
+                isGreen = false
+                shouldUpdate = true
+            } else if (offers.isGreenAvailable() && !isGreen) {
+                isShild = false
+                isGreen = true
+                shouldUpdate = true
+            }
+        }
+
+        if (shouldUpdate) {
+            type = if (isShild && !isGreen) {
+                ShippedSuiteType.SHIELD
+            } else if (!isShild && isGreen) {
+                ShippedSuiteType.GREEN
+            } else if (isShild && isGreen) {
+                ShippedSuiteType.GREEN_AND_SHIELD
+            } else {
+                ShippedSuiteType.SHIELD
+            }
+        }
+
+        binding.fee.text = type.widgetFee(offers, context)
+        cachedOffers = offers
+        triggerWidgetChangeWithError()
+    }
+
+    private fun updateWidgetIfError(error: ShippedException) {
+        binding.fee.text = context.getString(R.string.shipped_fee_default)
+        cachedOffers = null
+        triggerWidgetChangeWithError(error)
+    }
+
+    private fun triggerWidgetChangeWithError(error: ShippedException? = null) {
+        var values: MutableMap<String, Any> = mutableMapOf()
+        values[IS_SELECTED_KEY] = widgetViewIsSelected
+        if (type == ShippedSuiteType.SHIELD || type == ShippedSuiteType.GREEN_AND_SHIELD) {
+            cachedOffers?.shieldFee?.let {
+                values[SHIELD_FEE_KEY] = it
+            }
+        }
+        if (type == ShippedSuiteType.GREEN || type == ShippedSuiteType.GREEN_AND_SHIELD) {
+            cachedOffers?.greenFee?.let {
+                values[GREEN_FEE_KEY] = it
+            }
+        }
+        if (error != null) {
+            values[ERROR_KEY] = error
+        }
+        callback?.onResult(values)
     }
 
     private fun handleError(throwable: Throwable): ShippedException {
@@ -215,7 +286,6 @@ class WidgetView @JvmOverloads constructor(
     }
 
     override fun onDetachedFromWindow() {
-        cacheResult.clear()
         cancelJob()
         super.onDetachedFromWindow()
     }
