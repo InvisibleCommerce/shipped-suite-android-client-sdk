@@ -70,8 +70,7 @@ class LearnMoreDialog internal constructor(context: Context) :
                 }
                 binding.reportAnIssue.text = "Download Shipped"
             } else if (value == ShippedSuiteType.GREEN_AND_SHIELD) {
-                params.height =
-                    context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
+                params.height = context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
             }
             binding.banner.layoutParams = params
             binding.banner.setImageDrawable(value.learnMoreBanner(context))
@@ -86,7 +85,7 @@ class LearnMoreDialog internal constructor(context: Context) :
         private const val REPORT_AN_ISSUE_URL = "https://app.shippedapp.co/claim"
         private const val TERMS_OF_SERVICE_URL = "https://www.invisiblecommerce.com/terms"
         private const val PRIVACY_POLICY_URL = "https://www.invisiblecommerce.com/privacy"
-        private const val SHIPPED_GREEN_URL = "https://app.shippedapp.co/green"
+        private const val SHIPPED_GREEN_URL = "https://www.shippedapp.co/green"
 
         fun show(context: Context, offers: ShippedSuiteType) {
             val dialog = LearnMoreDialog(context)

@@ -14,10 +14,10 @@ object JsonUtils {
         jsonObject: JSONObject,
         @Size(min = 1) fieldName: String
     ): Int? {
-        return if (!jsonObject.has(fieldName)) {
-            null
-        } else {
+        return if (jsonObject.has(fieldName) && !jsonObject.isNull(fieldName)) {
             jsonObject.optInt(fieldName)
+        } else {
+            null
         }
     }
 
@@ -34,10 +34,10 @@ object JsonUtils {
         jsonObject: JSONObject,
         @Size(min = 1) fieldName: String
     ): Double? {
-        return if (!jsonObject.has(fieldName)) {
-            null
-        } else {
+        return if (jsonObject.has(fieldName) && !jsonObject.isNull(fieldName)) {
             jsonObject.optDouble(fieldName)
+        } else {
+            null
         }
     }
 
@@ -72,11 +72,11 @@ object JsonUtils {
                     if (value != NULL) {
                         mapOf(
                             key to
-                                when (value) {
-                                    is JSONObject -> jsonObjectToMap(value)
-                                    is JSONArray -> jsonArrayToList(value)
-                                    else -> value
-                                }
+                                    when (value) {
+                                        is JSONObject -> jsonObjectToMap(value)
+                                        is JSONArray -> jsonArrayToList(value)
+                                        else -> value
+                                    }
                         )
                     } else {
                         null

@@ -11,9 +11,18 @@ data class ShippedOffers constructor(
 
     val orderValue: BigDecimal,
 
-    val shieldFee: BigDecimal,
+    val shieldFee: BigDecimal?,
 
-    val greenFee: BigDecimal,
+    val greenFee: BigDecimal?,
 
-    val offeredAt: Date?
-) : ShippedModel, Parcelable
+    val offeredAt: Date
+) : ShippedModel, Parcelable {
+
+    fun isShieldAvailable(): Boolean {
+        return shieldFee != null
+    }
+
+    fun isGreenAvailable(): Boolean {
+        return greenFee != null
+    }
+}

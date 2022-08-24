@@ -2,12 +2,11 @@ package com.invisiblecommerce.shippedsuite.ui
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.invisiblecommerce.shippedsuite.ShippedSuite
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import java.math.BigDecimal
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [29])
@@ -21,6 +20,13 @@ class LearnMoreTest {
 
     @Test
     fun dialogTest() {
-        learnMoreDialog
+        learnMoreDialog.type = ShippedSuiteType.GREEN_AND_SHIELD
+        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.GREEN_AND_SHIELD)
+
+        learnMoreDialog.type = ShippedSuiteType.GREEN
+        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.GREEN)
+
+        learnMoreDialog.type = ShippedSuiteType.SHIELD
+        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.SHIELD)
     }
 }

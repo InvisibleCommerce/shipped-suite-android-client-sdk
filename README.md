@@ -6,7 +6,7 @@
  [![MavenCentral](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fservice%2Flocal%2Frepositories%2Freleases%2Fcontent%2Fcom%2Finvisiblecommerce%2Fshippedsuite%2Fmaven-metadata.xml)](https://s01.oss.sonatype.org/#nexus-search;quick~shippedsuite)
  [![JitPack](https://www.jitpack.io/v/InvisibleCommerce/shipped-suite-android-client-sdk.svg)](https://www.jitpack.io/#InvisibleCommerce/shipped-suite-android-client-sdk)
  [![License](https://img.shields.io/badge/license-MIT%20License-00AAAA.svg)](https://github.com/InvisibleCommerce/shipped-suite-android-client-sdk/blob/main/LICENSE)
- [![Codecov](https://codecov.io/gh/InvisibleCommerce/shipped-suite-android-client-sdk/branch/main/graph/badge.svg?token=SuRuzq1Bx0)](https://codecov.io/gh/InvisibleCommerce/shipped-suite-android-client-sdk)
+ [![codecov](https://codecov.io/gh/InvisibleCommerce/shipped-suite-android-client-sdk/branch/main/graph/badge.svg?token=m5rxEcwPQY)](https://codecov.io/gh/InvisibleCommerce/shipped-suite-android-client-sdk)
 
 Shipped Shield offers premium package assurance for shipments that are lost, damaged or stolen. Instantly track and resolve shipment issues hassle-free with the app.
 

@@ -3,6 +3,7 @@ package com.invisiblecommerce.shippedsuite.ui
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.invisiblecommerce.shippedsuite.ShippedSuite
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -26,5 +27,17 @@ class WidgetViewTest {
 
         val defaultOrderValue = BigDecimal.valueOf(129.99)
         widgetView.updateOrderValue(defaultOrderValue)
+
+        widgetView.type = ShippedSuiteType.GREEN_AND_SHIELD
+        Assert.assertEquals(widgetView.type, ShippedSuiteType.GREEN_AND_SHIELD)
+
+        widgetView.type = ShippedSuiteType.GREEN
+        Assert.assertEquals(widgetView.type, ShippedSuiteType.GREEN)
+
+        widgetView.type = ShippedSuiteType.SHIELD
+        Assert.assertEquals(widgetView.type, ShippedSuiteType.SHIELD)
+
+        widgetView.isRespectServer = true
+        Assert.assertEquals(widgetView.isRespectServer, true)
     }
 }

@@ -55,6 +55,7 @@ class MainFragment : Fragment() {
 
         // WidgetView offers
         binding.widgetView.type = ShippedSuiteType.GREEN
+        binding.widgetView.isRespectServer = true
 
         // WidgetView callback
         binding.widgetView.callback = object : WidgetView.Callback<BigDecimal> {
@@ -67,7 +68,8 @@ class MainFragment : Fragment() {
             OnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     viewModel.searchKey.value = binding.input.text?.trim()?.toString()
-                    val inputMethodManager = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    val inputMethodManager =
+                        context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(binding.input.windowToken, 0)
                     return@OnEditorActionListener true
                 }
