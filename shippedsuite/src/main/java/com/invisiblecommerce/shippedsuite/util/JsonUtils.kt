@@ -72,11 +72,11 @@ object JsonUtils {
                     if (value != NULL) {
                         mapOf(
                             key to
-                                    when (value) {
-                                        is JSONObject -> jsonObjectToMap(value)
-                                        is JSONArray -> jsonArrayToList(value)
-                                        else -> value
-                                    }
+                                when (value) {
+                                    is JSONObject -> jsonObjectToMap(value)
+                                    is JSONArray -> jsonArrayToList(value)
+                                    else -> value
+                                }
                         )
                     } else {
                         null

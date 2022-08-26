@@ -7,7 +7,8 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
-internal class HttpConnection internal constructor(private val conn: HttpsURLConnection) : Closeable {
+internal class HttpConnection internal constructor(private val conn: HttpsURLConnection) :
+    Closeable {
 
     val response: HttpResponse
         @Throws(IOException::class)

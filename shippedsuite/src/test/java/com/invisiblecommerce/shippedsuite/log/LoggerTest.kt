@@ -18,7 +18,8 @@ class LoggerTest {
 
     @Test
     fun logTest() {
-        val publicKey = "pk_development_117c2ee46c122fb0ce070fbc984e6a4742040f05a1c73f8a900254a1933a0112"
+        val publicKey =
+            "pk_development_117c2ee46c122fb0ce070fbc984e6a4742040f05a1c73f8a900254a1933a0112"
         ShippedPlugins.initialize(
             ShippedConfiguration.Builder(context, publicKey)
                 .enableLogging(true)
