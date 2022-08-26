@@ -6,12 +6,12 @@ import com.invisiblecommerce.shippedsuite.http.HttpClient
 import com.invisiblecommerce.shippedsuite.http.HttpRequest
 import com.invisiblecommerce.shippedsuite.http.HttpResponse
 import com.invisiblecommerce.shippedsuite.model.Options
+import com.invisiblecommerce.shippedsuite.model.ShippedModel
 import com.invisiblecommerce.shippedsuite.model.ShippedOffers
 import com.invisiblecommerce.shippedsuite.model.ShippedRequest
-import com.invisiblecommerce.shippedsuite.model.ShippedModel
 import com.invisiblecommerce.shippedsuite.model.parser.ModelJsonParser
-import com.invisiblecommerce.shippedsuite.model.parser.ShippedOffersParser
 import com.invisiblecommerce.shippedsuite.model.parser.ShippedErrorParser
+import com.invisiblecommerce.shippedsuite.model.parser.ShippedOffersParser
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,7 +20,8 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.util.*
 
-internal class ShippedAPIRepository(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : APIRepository {
+internal class ShippedAPIRepository(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) :
+    APIRepository {
 
     private val httpClient: HttpClient = HttpClient()
 

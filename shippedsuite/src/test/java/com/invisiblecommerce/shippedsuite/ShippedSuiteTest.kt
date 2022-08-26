@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.invisiblecommerce.shippedsuite.exception.ShippedException
 import com.invisiblecommerce.shippedsuite.model.ShippedOffers
-import kotlinx.coroutines.*
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -20,12 +23,12 @@ class ShippedSuiteTest {
     private val context = ApplicationProvider.getApplicationContext<Context>()
 
     @Before
-    fun beforeTest(){
+    fun beforeTest() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
     }
 
     @After
-    fun afterTest(){
+    fun afterTest() {
         Dispatchers.resetMain()
     }
 

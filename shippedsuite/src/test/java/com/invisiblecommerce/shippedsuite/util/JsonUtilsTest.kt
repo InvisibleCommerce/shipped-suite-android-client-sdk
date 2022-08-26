@@ -29,18 +29,24 @@ class JsonUtilsTest {
 
     @Test
     fun optMapTest() {
-        val jsonObject = JSONObject().put("key", mapOf(
-            "a" to "a",
-            "b" to "b",
-            "c" to true,
-            "d" to 123
-        ))
-        assertEquals(mapOf(
-            "a" to "a",
-            "b" to "b",
-            "c" to true,
-            "d" to 123
-        ), JsonUtils.optMap(jsonObject, "key"))
+        val jsonObject = JSONObject().put(
+            "key",
+            mapOf(
+                "a" to "a",
+                "b" to "b",
+                "c" to true,
+                "d" to 123
+            )
+        )
+        assertEquals(
+            mapOf(
+                "a" to "a",
+                "b" to "b",
+                "c" to true,
+                "d" to 123
+            ),
+            JsonUtils.optMap(jsonObject, "key")
+        )
     }
 
     @Test

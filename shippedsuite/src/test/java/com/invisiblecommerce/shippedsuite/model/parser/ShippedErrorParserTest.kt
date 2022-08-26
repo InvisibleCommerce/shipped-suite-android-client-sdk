@@ -13,7 +13,7 @@ class ShippedErrorParserTest {
         assertNotNull(parser.dateFormat)
 
         val jsonObject = JSONObject().put("error", "Auth error")
-        val ShippedError = parser.parse(jsonObject)
-        assertEquals(ShippedError.message, "Auth error")
+        val shippedError = parser.parse(jsonObject)
+        assertEquals(shippedError.message, "Auth error")
     }
 }

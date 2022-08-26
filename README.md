@@ -63,6 +63,7 @@ You can put it in the layout file where you want.
 Setup the type of widget view.
 ```kotlin
 binding.widgetView.type = ShippedSuiteType.GREEN
+binding.widgetView.isRespectServer = true
 ```
 
 Whenever the cart value changes, update the widget view with the latest cart value. This value should be the sum of the value of the order items, prior to discounts, shipping, taxes, etc. It will request shipped fee automatically.

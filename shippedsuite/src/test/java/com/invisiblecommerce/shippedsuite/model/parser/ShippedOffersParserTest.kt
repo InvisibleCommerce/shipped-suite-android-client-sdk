@@ -9,7 +9,6 @@ import java.math.BigDecimal
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-
 class ShippedOffersParserTest {
 
     @Throws(Exception::class)

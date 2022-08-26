@@ -221,8 +221,8 @@ class WidgetView @JvmOverloads constructor(
             shouldUpdate = true
         }
 
-        if ((!offers.isShieldAvailable() && offers.isGreenAvailable())
-            || (offers.isShieldAvailable() && !offers.isGreenAvailable())
+        if ((!offers.isShieldAvailable() && offers.isGreenAvailable()) ||
+            (offers.isShieldAvailable() && !offers.isGreenAvailable())
         ) {
             if (offers.isShieldAvailable() && !isShild) {
                 isShild = true
