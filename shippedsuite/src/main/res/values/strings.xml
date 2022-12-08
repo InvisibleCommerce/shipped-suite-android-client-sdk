@@ -25,12 +25,13 @@
 
     <string name="shipped_learn_more">Learn More</string>
     <string name="shipped_got_it">Got it!</string>
-    <string name="shipped_tip_message">Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment.</string>
+    <string name="shipped_tip_message">Shipped offers carbon offsets, shipment protection with tracking services and hassle-free solutions for resolving shipment issues for online purchases that are damaged in transit, lost by the carrier, or stolen immediately after the carrier’s proof of delivery where Shipped monitors the shipment. Invisible Commerce Limited, or it’s licensed producer entity Shipped Insurance Services LLC, may receive compensation for its services and for your usage of Shipped Shield.</string>
     <string name="shipped_fee_default">N/A</string>
 
     <string name="report_an_issue">Report an Issue</string>
     <string name="terms_of_service">Terms of Service</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="copyright">Invisible Commerce Limited 2021</string>
+    <string name="copyright0">Shipped Insurance Services LLC</string>
+    <string name="copyright1">Invisible Commerce Limited 2021</string>
 
 </resources>
