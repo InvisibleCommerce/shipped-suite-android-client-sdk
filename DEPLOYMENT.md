@@ -1,6 +1,6 @@
 # How to deploy Shipped Suite Android SDK
 
-This document will take you through the process of creating/updating Shipped Suite Android SDK pod and publishing it to the Cocoapods library.
+This document will take you through the process of creating/updating Shipped Suite Android SDK.
 
 ## Getting started
 
