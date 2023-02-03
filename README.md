@@ -24,7 +24,7 @@ Add `shippedsuite` to your `build.gradle` dependencies.
 
 ```
 dependencies {
-    implementation 'com.invisiblecommerce:shippedsuite:0.1.0'
+    implementation 'com.invisiblecommerce:shippedsuite:0.1.2'
 }
 ```
 
@@ -63,6 +63,7 @@ You can put it in the layout file where you want.
 Setup the type of widget view.
 ```kotlin
 binding.widgetView.type = ShippedSuiteType.GREEN
+binding.widgetView.isMandatory = false
 binding.widgetView.isRespectServer = true
 ```
 

@@ -17,6 +17,7 @@ class ShippedOffersParser : ModelJsonParser<ShippedOffers> {
             greenFee = JsonUtils.optDouble(json, GREEN_FEE)?.let {
                 BigDecimal.valueOf(it)
             },
+            isMandatory = JsonUtils.optBoolean(json, IS_MANDATORY),
             offeredAt = dateFormat.parse(json.optString(OFFERED_AT))
         )
     }
@@ -26,6 +27,7 @@ class ShippedOffersParser : ModelJsonParser<ShippedOffers> {
         const val ORDER_VALUE = "order_value"
         const val SHIELD_FEE = "shield_fee"
         const val GREEN_FEE = "green_fee"
+        const val IS_MANDATORY = "mandatory"
         const val OFFERED_AT = "offered_at"
     }
 }

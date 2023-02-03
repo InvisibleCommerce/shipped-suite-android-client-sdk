@@ -15,6 +15,8 @@ data class ShippedOffers constructor(
 
     val greenFee: BigDecimal?,
 
+    val isMandatory: Boolean,
+
     val offeredAt: Date
 ) : ShippedModel, Parcelable {
 

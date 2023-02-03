@@ -55,6 +55,7 @@ class MainFragment : Fragment() {
 
         // WidgetView offers
         binding.widgetView.type = ShippedSuiteType.GREEN
+        binding.widgetView.isMandatory = true
         binding.widgetView.isRespectServer = true
 
         // WidgetView callback
