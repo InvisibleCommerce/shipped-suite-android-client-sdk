@@ -14,6 +14,7 @@ class ShippedOffersTest {
         orderValue = BigDecimal.valueOf(129.99),
         shieldFee = BigDecimal.valueOf(2.27),
         greenFee = BigDecimal.valueOf(0.39),
+        isMandatory = true,
         offeredAt = date
     )
 
@@ -23,6 +24,7 @@ class ShippedOffersTest {
         assertEquals(BigDecimal.valueOf(129.99), offer.orderValue)
         assertEquals(BigDecimal.valueOf(2.27), offer.shieldFee)
         assertEquals(BigDecimal.valueOf(0.39), offer.greenFee)
+        assertEquals(true, offer.isMandatory)
         assertEquals(date, offer.offeredAt)
     }
 }
