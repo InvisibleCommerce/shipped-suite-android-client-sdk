@@ -134,6 +134,12 @@ class WidgetView @JvmOverloads constructor(
             binding.widgetDesc.text = type.widgetDesc(context)
         }
 
+    var isMandatory: Boolean = false
+        set(value) {
+            field = value
+            hideToggleIfMandatory(isMandatory)
+        }
+
     var isRespectServer: Boolean = false
 
     var callback: Callback<BigDecimal>? = null
@@ -193,11 +199,27 @@ class WidgetView @JvmOverloads constructor(
         when {
             offers != null -> {
                 updateWidgetIfConfigsMismatch(offers)
+                updateToggleLayoutConstraints(offers)
             }
             error != null -> {
                 updateWidgetIfError(error)
             }
         }
+    }
+
+    private fun hideToggleIfMandatory(isMandatory: Boolean) {
+        if (isMandatory) {
+            binding.shippedSwitch.visibility = GONE
+            binding.shippedSwitch.isChecked = true
+            binding.shippedLogo.visibility = VISIBLE
+        } else {
+            binding.shippedSwitch.visibility = VISIBLE
+            binding.shippedLogo.visibility = GONE
+        }
+    }
+
+    private fun updateToggleLayoutConstraints(offers: ShippedOffers) {
+        hideToggleIfMandatory(offers.isMandatory || isMandatory)
     }
 
     private fun updateWidgetIfConfigsMismatch(offers: ShippedOffers) {

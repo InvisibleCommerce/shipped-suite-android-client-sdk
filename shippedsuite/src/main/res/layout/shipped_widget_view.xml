@@ -5,23 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/shipped_switch"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/left_layout"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/right_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/right_layout">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/shipped_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/shipped_logo"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:src="@drawable/green_logo"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/switch_layout"
+        android:id="@+id/right_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/shipped_switch"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/shipped_switch"
-        app:layout_constraintTop_toTopOf="@id/shipped_switch">
+        app:layout_constraintStart_toEndOf="@id/left_layout"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/widget_title"
@@ -80,6 +102,5 @@
             app:layout_constraintTop_toBottomOf="@id/widget_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

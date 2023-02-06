@@ -38,6 +38,9 @@ class WidgetViewTest {
         widgetView.type = ShippedSuiteType.SHIELD
         Assert.assertEquals(widgetView.type, ShippedSuiteType.SHIELD)
 
+        widgetView.isMandatory = true
+        Assert.assertEquals(widgetView.isMandatory, true)
+
         widgetView.isRespectServer = true
         Assert.assertEquals(widgetView.isRespectServer, true)
     }

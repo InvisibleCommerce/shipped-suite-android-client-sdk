@@ -34,7 +34,7 @@
         android:id="@+id/widget_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/order_value" />
@@ -43,7 +43,7 @@
         android:id="@+id/display_learn_more_model"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/shipped_button_solid"
         android:text="@string/display_learn_more_model"
         android:textColor="#1A1A1A"
