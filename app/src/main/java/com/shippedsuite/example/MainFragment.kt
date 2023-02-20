@@ -16,6 +16,7 @@ import androidx.lifecycle.asLiveData
 import com.invisiblecommerce.shippedsuite.ui.LearnMoreDialog
 import com.invisiblecommerce.shippedsuite.ui.ShippedSuiteType
 import com.invisiblecommerce.shippedsuite.ui.WidgetView
+import com.invisiblecommerce.shippedsuite.ui.WidgetViewConfiguration
 import com.shippedsuite.example.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -53,10 +54,15 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // WidgetView offers
-        binding.widgetView.type = ShippedSuiteType.GREEN
-        binding.widgetView.isMandatory = true
-        binding.widgetView.isRespectServer = true
+        // WidgetView setup
+        val configuration = WidgetViewConfiguration(
+            ShippedSuiteType.GREEN,
+            isInformational = true,
+            isMandatory = false,
+            isRespectServer = false
+        )
+
+        binding.widgetView.configuration = configuration
 
         // WidgetView callback
         binding.widgetView.callback = object : WidgetView.Callback<BigDecimal> {

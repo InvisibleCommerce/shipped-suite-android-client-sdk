@@ -1,7 +1,7 @@
 <resources>
 
     <string name="green_title">Shipped Green</string>
-    <string name="green_desc">Carbon Neutral Shipment</string>
+    <string name="green_desc">Carbon Neutral Shipment for the Earth</string>
     <string name="shield_title">Shipped Shield</string>
     <string name="shield_desc">Package Assurance for unexpected issues</string>
     <string name="green_shield_title">Shipped Green + Shield</string>

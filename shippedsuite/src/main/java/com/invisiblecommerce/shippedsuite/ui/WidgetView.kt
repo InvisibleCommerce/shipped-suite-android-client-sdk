@@ -107,6 +107,13 @@ enum class ShippedSuiteType(val value: String) {
     }
 }
 
+data class WidgetViewConfiguration(
+    val type: ShippedSuiteType = ShippedSuiteType.SHIELD,
+    val isInformational: Boolean = false,
+    val isMandatory: Boolean = false,
+    val isRespectServer: Boolean = false
+) {}
+
 /**
 A widget view which shows the shield fee.
  */
@@ -127,26 +134,50 @@ class WidgetView @JvmOverloads constructor(
         fun onResult(result: Map<String, Any>)
     }
 
-    var type: ShippedSuiteType = ShippedSuiteType.GREEN
+    var configuration: WidgetViewConfiguration = WidgetViewConfiguration()
         set(value) {
             field = value
-            binding.widgetTitle.text = type.widgetTitle(context)
-            binding.widgetDesc.text = type.widgetDesc(context)
+            type = value.type
+            isInformational = value.isInformational
+            isMandatory = value.isMandatory
+            isRespectServer = value.isRespectServer
         }
 
-    var isMandatory: Boolean = false
+    private var type: ShippedSuiteType = ShippedSuiteType.SHIELD
         set(value) {
             field = value
-            hideToggleIfMandatory(isMandatory)
+            updateTexts()
         }
 
-    var isRespectServer: Boolean = false
+    private var isMandatory: Boolean
+        get() {
+            return (cachedOffers?.isMandatory ?: false) || configuration.isMandatory
+        }
+        set(value) {
+            hideToggleIfMandatory(value, isInformational)
+        }
+
+    private var isInformational: Boolean = false
+        set(value) {
+            field = value
+            hideFeeIfInformational(value)
+            hideToggleIfMandatory(isMandatory, isInformational)
+        }
+
+    private var cachedOffers: ShippedOffers? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                updateWidgetIfConfigsMismatch(value)
+                hideToggleIfMandatory(isMandatory, isInformational)
+            }
+        }
+
+    private var isRespectServer: Boolean = false
 
     var callback: Callback<BigDecimal>? = null
 
     private var job: Job? = null
-
-    private var cachedOffers: ShippedOffers? = null
 
     private val apiRepository: APIRepository by lazy {
         ShippedAPIRepository()
@@ -198,8 +229,7 @@ class WidgetView @JvmOverloads constructor(
     private fun onResult(offers: ShippedOffers? = null, error: ShippedException? = null) {
         when {
             offers != null -> {
-                updateWidgetIfConfigsMismatch(offers)
-                updateToggleLayoutConstraints(offers)
+                cachedOffers = offers
             }
             error != null -> {
                 updateWidgetIfError(error)
@@ -207,19 +237,31 @@ class WidgetView @JvmOverloads constructor(
         }
     }
 
-    private fun hideToggleIfMandatory(isMandatory: Boolean) {
-        if (isMandatory) {
+    private fun updateTexts() {
+        binding.widgetTitle.text = type.widgetTitle(context)
+        binding.widgetDesc.text = type.widgetDesc(context)
+        binding.shippedLogo.setImageDrawable(type.learnMoreLogo(context))
+    }
+
+    private fun hideFeeIfInformational(isInformational: Boolean) {
+        if (isInformational) {
+            binding.fee.visibility = GONE
+        } else {
+            binding.fee.visibility = VISIBLE
+        }
+    }
+
+    private fun hideToggleIfMandatory(isMandatory: Boolean, isInformational: Boolean) {
+        if (isMandatory || isInformational) {
             binding.shippedSwitch.visibility = GONE
-            binding.shippedSwitch.isChecked = true
             binding.shippedLogo.visibility = VISIBLE
         } else {
             binding.shippedSwitch.visibility = VISIBLE
             binding.shippedLogo.visibility = GONE
         }
-    }
-
-    private fun updateToggleLayoutConstraints(offers: ShippedOffers) {
-        hideToggleIfMandatory(offers.isMandatory || isMandatory)
+        if (isMandatory) {
+            binding.shippedSwitch.isChecked = true
+        }
     }
 
     private fun updateWidgetIfConfigsMismatch(offers: ShippedOffers) {
@@ -270,7 +312,6 @@ class WidgetView @JvmOverloads constructor(
         }
 
         binding.fee.text = type.widgetFee(offers, context)
-        cachedOffers = offers
         triggerWidgetChangeWithError()
     }
 
