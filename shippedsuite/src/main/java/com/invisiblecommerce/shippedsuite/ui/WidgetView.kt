@@ -246,8 +246,10 @@ class WidgetView @JvmOverloads constructor(
     private fun hideFeeIfInformational(isInformational: Boolean) {
         if (isInformational) {
             binding.fee.visibility = GONE
+            binding.learnMore.textAlignment = TEXT_ALIGNMENT_VIEW_END
         } else {
             binding.fee.visibility = VISIBLE
+            binding.learnMore.textAlignment = TEXT_ALIGNMENT_VIEW_START
         }
     }
 

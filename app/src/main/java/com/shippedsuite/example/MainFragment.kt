@@ -59,7 +59,7 @@ class MainFragment : Fragment() {
             ShippedSuiteType.GREEN,
             isInformational = true,
             isMandatory = false,
-            isRespectServer = false
+            isRespectServer = true
         )
 
         binding.widgetView.configuration = configuration
