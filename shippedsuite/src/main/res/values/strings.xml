@@ -15,6 +15,10 @@
     <string name="learn_more_subtitle_shield">Have peace of mind and instantly resolve unexpected issues hassle-free.</string>
     <string name="learn_more_subtitle_green_shield">Protect your order with premium package assurance and carbon neutral shipment.</string>
 
+    <string name="learn_more_subtitle_green_informational">We’ve partnered with Shipped to fight climate change by neutralizing 100% of the carbon emissions created from delivering this order to you.</string>
+    <string name="learn_more_subtitle_shield_informational">Have peace of mind and instantly resolve unexpected issues hassle-free.</string>
+    <string name="learn_more_subtitle_green_shield_informational">We’ve partnered with Shipped to fight climate change by neutralizing 100% of the carbon emissions from delivering this order to you. If you have an unexpected shipment issue, resolve hassle-free with complimentary Shipped Shield package assurance.</string>
+
     <string name="shipped_default_tip_0">Instant premium package assurance for damage, loss, or theft.</string>
     <string name="shipped_default_tip_1">Save time and headache reporting unexpected shipment issues.</string>
     <string name="shipped_default_tip_2">Easily resolve issues and get a replacement or refund, hassle-free.</string>

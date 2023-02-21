@@ -56,7 +56,7 @@ class MainFragment : Fragment() {
 
         // WidgetView setup
         val configuration = WidgetViewConfiguration(
-            ShippedSuiteType.GREEN,
+            ShippedSuiteType.SHIELD,
             isInformational = true,
             isMandatory = false,
             isRespectServer = true
@@ -115,7 +115,7 @@ class MainFragment : Fragment() {
 
         // Display learn more model manually
         binding.displayLearnMoreModel.setOnClickListener {
-            LearnMoreDialog.show(requireContext(), ShippedSuiteType.GREEN_AND_SHIELD)
+            LearnMoreDialog.show(requireContext(), WidgetViewConfiguration(ShippedSuiteType.GREEN, false))
         }
 
         // Get offers fee manually

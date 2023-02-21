@@ -190,7 +190,7 @@ class WidgetView @JvmOverloads constructor(
     init {
         binding.learnMore.paintFlags = binding.learnMore.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         binding.learnMore.setOnClickListener {
-            LearnMoreDialog.show(context, type)
+            LearnMoreDialog.show(context, WidgetViewConfiguration(type, isInformational))
         }
         binding.shippedSwitch.isChecked = widgetViewIsSelected
         binding.shippedSwitch.setOnCheckedChangeListener { _, isChecked ->
