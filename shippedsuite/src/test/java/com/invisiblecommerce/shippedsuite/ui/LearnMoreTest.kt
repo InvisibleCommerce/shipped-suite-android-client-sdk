@@ -20,13 +20,13 @@ class LearnMoreTest {
 
     @Test
     fun dialogTest() {
-        learnMoreDialog.type = ShippedSuiteType.GREEN_AND_SHIELD
-        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.GREEN_AND_SHIELD)
+        learnMoreDialog.configuration.type = ShippedSuiteType.GREEN_AND_SHIELD
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.GREEN_AND_SHIELD)
 
-        learnMoreDialog.type = ShippedSuiteType.GREEN
-        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.GREEN)
+        learnMoreDialog.configuration.type = ShippedSuiteType.GREEN
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.GREEN)
 
-        learnMoreDialog.type = ShippedSuiteType.SHIELD
-        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.SHIELD)
+        learnMoreDialog.configuration.type = ShippedSuiteType.SHIELD
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.SHIELD)
     }
 }
