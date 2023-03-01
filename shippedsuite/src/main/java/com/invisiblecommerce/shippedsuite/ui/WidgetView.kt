@@ -107,11 +107,11 @@ enum class ShippedSuiteType(val value: String) {
     }
 }
 
-data class WidgetViewConfiguration(
-    val type: ShippedSuiteType = ShippedSuiteType.SHIELD,
-    val isInformational: Boolean = false,
-    val isMandatory: Boolean = false,
-    val isRespectServer: Boolean = false
+data class ShippedSuiteConfiguration(
+    var type: ShippedSuiteType = ShippedSuiteType.SHIELD,
+    var isInformational: Boolean = false,
+    var isMandatory: Boolean = false,
+    var isRespectServer: Boolean = false
 ) {}
 
 /**
@@ -134,46 +134,24 @@ class WidgetView @JvmOverloads constructor(
         fun onResult(result: Map<String, Any>)
     }
 
-    var configuration: WidgetViewConfiguration = WidgetViewConfiguration()
-        set(value) {
-            field = value
-            type = value.type
-            isInformational = value.isInformational
-            isMandatory = value.isMandatory
-            isRespectServer = value.isRespectServer
-        }
-
-    private var type: ShippedSuiteType = ShippedSuiteType.SHIELD
+    var configuration: ShippedSuiteConfiguration = ShippedSuiteConfiguration()
         set(value) {
             field = value
             updateTexts()
-        }
-
-    private var isMandatory: Boolean
-        get() {
-            return (cachedOffers?.isMandatory ?: false) || configuration.isMandatory
-        }
-        set(value) {
-            hideToggleIfMandatory(value, isInformational)
-        }
-
-    private var isInformational: Boolean = false
-        set(value) {
-            field = value
-            hideFeeIfInformational(value)
-            hideToggleIfMandatory(isMandatory, isInformational)
+            hideToggleIfMandatory(value.isMandatory, value.isInformational)
+            hideFeeIfInformational(value.isInformational)
         }
 
     private var cachedOffers: ShippedOffers? = null
         set(value) {
             field = value
             if (value != null) {
+                configuration.isMandatory =
+                    (cachedOffers?.isMandatory ?: false) || configuration.isMandatory
                 updateWidgetIfConfigsMismatch(value)
-                hideToggleIfMandatory(isMandatory, isInformational)
+                hideToggleIfMandatory(configuration.isMandatory, configuration.isInformational)
             }
         }
-
-    private var isRespectServer: Boolean = false
 
     var callback: Callback<BigDecimal>? = null
 
@@ -190,7 +168,7 @@ class WidgetView @JvmOverloads constructor(
     init {
         binding.learnMore.paintFlags = binding.learnMore.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         binding.learnMore.setOnClickListener {
-            LearnMoreDialog.show(context, WidgetViewConfiguration(type, isInformational))
+            LearnMoreDialog.show(context, configuration)
         }
         binding.shippedSwitch.isChecked = widgetViewIsSelected
         binding.shippedSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -238,9 +216,9 @@ class WidgetView @JvmOverloads constructor(
     }
 
     private fun updateTexts() {
-        binding.widgetTitle.text = type.widgetTitle(context)
-        binding.widgetDesc.text = type.widgetDesc(context)
-        binding.shippedLogo.setImageDrawable(type.learnMoreLogo(context))
+        binding.widgetTitle.text = configuration.type.widgetTitle(context)
+        binding.widgetDesc.text = configuration.type.widgetDesc(context)
+        binding.shippedLogo.setImageDrawable(configuration.type.learnMoreLogo(context))
     }
 
     private fun hideFeeIfInformational(isInformational: Boolean) {
@@ -268,13 +246,15 @@ class WidgetView @JvmOverloads constructor(
 
     private fun updateWidgetIfConfigsMismatch(offers: ShippedOffers) {
         var shouldUpdate = false
-        var isShild = type == ShippedSuiteType.SHIELD || type == ShippedSuiteType.GREEN_AND_SHIELD
-        var isGreen = type == ShippedSuiteType.GREEN || type == ShippedSuiteType.GREEN_AND_SHIELD
+        var isShild =
+            configuration.type == ShippedSuiteType.SHIELD || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD
+        var isGreen =
+            configuration.type == ShippedSuiteType.GREEN || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD
 
         if (isShild && !offers.isShieldAvailable()) {
             isShild = false
             shouldUpdate = true
-        } else if (!isShild && offers.isShieldAvailable() && isRespectServer) {
+        } else if (!isShild && offers.isShieldAvailable() && configuration.isRespectServer) {
             isShild = true
             shouldUpdate = true
         }
@@ -282,7 +262,7 @@ class WidgetView @JvmOverloads constructor(
         if (isGreen && !offers.isGreenAvailable()) {
             isGreen = false
             shouldUpdate = true
-        } else if (!isGreen && offers.isGreenAvailable() && isRespectServer) {
+        } else if (!isGreen && offers.isGreenAvailable() && configuration.isRespectServer) {
             isGreen = true
             shouldUpdate = true
         }
@@ -302,7 +282,7 @@ class WidgetView @JvmOverloads constructor(
         }
 
         if (shouldUpdate) {
-            type = if (isShild && !isGreen) {
+            configuration.type = if (isShild && !isGreen) {
                 ShippedSuiteType.SHIELD
             } else if (!isShild && isGreen) {
                 ShippedSuiteType.GREEN
@@ -311,9 +291,10 @@ class WidgetView @JvmOverloads constructor(
             } else {
                 ShippedSuiteType.SHIELD
             }
+            updateTexts()
         }
 
-        binding.fee.text = type.widgetFee(offers, context)
+        binding.fee.text = configuration.type.widgetFee(offers, context)
         triggerWidgetChangeWithError()
     }
 
@@ -326,12 +307,12 @@ class WidgetView @JvmOverloads constructor(
     private fun triggerWidgetChangeWithError(error: ShippedException? = null) {
         var values: MutableMap<String, Any> = mutableMapOf()
         values[IS_SELECTED_KEY] = widgetViewIsSelected
-        if (type == ShippedSuiteType.SHIELD || type == ShippedSuiteType.GREEN_AND_SHIELD) {
+        if (configuration.type == ShippedSuiteType.SHIELD || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
             cachedOffers?.shieldFee?.let {
                 values[SHIELD_FEE_KEY] = it
             }
         }
-        if (type == ShippedSuiteType.GREEN || type == ShippedSuiteType.GREEN_AND_SHIELD) {
+        if (configuration.type == ShippedSuiteType.GREEN || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
             cachedOffers?.greenFee?.let {
                 values[GREEN_FEE_KEY] = it
             }

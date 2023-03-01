@@ -28,7 +28,7 @@ class LearnMoreDialog internal constructor(context: Context) :
         findViewById<Button>(R.id.shipped_done)?.setOnClickListener { dismiss() }
 
         binding.reportAnIssue.setOnClickListener {
-            if (type == ShippedSuiteType.GREEN) {
+            if (configuration.type == ShippedSuiteType.GREEN) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(DOWNLOAD_SHIPPED_URL))
                 startActivity(context, intent, null)
             } else {
@@ -46,41 +46,36 @@ class LearnMoreDialog internal constructor(context: Context) :
         }
     }
 
-    var configuration: WidgetViewConfiguration = WidgetViewConfiguration()
+    var configuration: ShippedSuiteConfiguration = ShippedSuiteConfiguration()
         set(value) {
             field = value
-            type = value.type
-            isInformational = value.isInformational
             updateLayouts()
         }
 
-    private var type: ShippedSuiteType = ShippedSuiteType.SHIELD
-    private var isInformational: Boolean = false
-
     private fun updateLayouts() {
-        binding.shippedLogo.setImageDrawable(type.learnMoreLogo(context))
-        binding.shippedTitle.text = type.learnMoreTitle(context)
-        val subtitle = when (type) {
-            ShippedSuiteType.GREEN -> context.getString(if (isInformational) R.string.learn_more_subtitle_green_informational else R.string.learn_more_subtitle_green)
-            ShippedSuiteType.SHIELD -> context.getString(if (isInformational) R.string.learn_more_subtitle_shield_informational else R.string.learn_more_subtitle_shield)
-            ShippedSuiteType.GREEN_AND_SHIELD -> context.getString(if (isInformational) R.string.learn_more_subtitle_green_shield_informational else R.string.learn_more_subtitle_green_shield)
+        binding.shippedLogo.setImageDrawable(configuration.type.learnMoreLogo(context))
+        binding.shippedTitle.text = configuration.type.learnMoreTitle(context)
+        val subtitle = when (configuration.type) {
+            ShippedSuiteType.GREEN -> context.getString(if (configuration.isInformational) R.string.learn_more_subtitle_green_informational else R.string.learn_more_subtitle_green)
+            ShippedSuiteType.SHIELD -> context.getString(if (configuration.isInformational) R.string.learn_more_subtitle_shield_informational else R.string.learn_more_subtitle_shield)
+            ShippedSuiteType.GREEN_AND_SHIELD -> context.getString(if (configuration.isInformational) R.string.learn_more_subtitle_green_shield_informational else R.string.learn_more_subtitle_green_shield)
         }
         binding.shippedSubtitle.text = subtitle
         val showTips = showTips()
         binding.shippedSubtitle.setTextSize(
             TypedValue.COMPLEX_UNIT_SP,
-            if (isInformational) 16.0F else 17.0F
+            if (configuration.isInformational) 16.0F else 17.0F
         )
         if (showTips) {
             binding.tipTickOne.visibility = ConstraintLayout.VISIBLE
             binding.shippedTipInfoOne.visibility = ConstraintLayout.VISIBLE
-            binding.shippedTipInfoOne.text = type.learnMoreTip0(context)
+            binding.shippedTipInfoOne.text = configuration.type.learnMoreTip0(context)
             binding.tipTickTwo.visibility = ConstraintLayout.VISIBLE
             binding.shippedTipInfoTwo.visibility = ConstraintLayout.VISIBLE
-            binding.shippedTipInfoTwo.text = type.learnMoreTip1(context)
+            binding.shippedTipInfoTwo.text = configuration.type.learnMoreTip1(context)
             binding.tipTickThree.visibility = ConstraintLayout.VISIBLE
             binding.shippedTipInfoThree.visibility = ConstraintLayout.VISIBLE
-            binding.shippedTipInfoThree.text = type.learnMoreTip2(context)
+            binding.shippedTipInfoThree.text = configuration.type.learnMoreTip2(context)
         } else {
             binding.tipTickOne.visibility = ConstraintLayout.GONE
             binding.shippedTipInfoOne.visibility = ConstraintLayout.GONE
@@ -89,7 +84,7 @@ class LearnMoreDialog internal constructor(context: Context) :
             binding.tipTickThree.visibility = ConstraintLayout.GONE
             binding.shippedTipInfoThree.visibility = ConstraintLayout.GONE
         }
-        if (type == ShippedSuiteType.SHIELD) {
+        if (configuration.type == ShippedSuiteType.SHIELD) {
             binding.banner.visibility = View.GONE
             binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.light_gray))
         } else {
@@ -97,26 +92,28 @@ class LearnMoreDialog internal constructor(context: Context) :
             binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.white))
         }
         val params = binding.banner.layoutParams
-        if (type == ShippedSuiteType.GREEN) {
+        if (configuration.type == ShippedSuiteType.GREEN) {
             params.height = context.resources.getDimension(R.dimen.green_banner_height).toInt()
             binding.reportAnIssue.text = "Download Shipped"
-        } else if (type == ShippedSuiteType.GREEN_AND_SHIELD) {
+        } else if (configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
             params.height =
                 context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
         }
         binding.banner.layoutParams = params
 
-        if (type == ShippedSuiteType.GREEN || (type == ShippedSuiteType.GREEN_AND_SHIELD && isInformational)) {
+        if (configuration.type == ShippedSuiteType.GREEN || (configuration.type == ShippedSuiteType.GREEN_AND_SHIELD && configuration.isInformational)) {
             binding.banner.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(SHIPPED_GREEN_URL))
                 startActivity(context, intent, null)
             }
         }
 
-        val bannerRes = when (type) {
+        val bannerRes = when (configuration.type) {
             ShippedSuiteType.GREEN -> context.getDrawable(R.drawable.green_banner)
             ShippedSuiteType.SHIELD -> null
-            ShippedSuiteType.GREEN_AND_SHIELD -> if (isInformational) context.getDrawable(R.drawable.green_banner) else context.getDrawable(
+            ShippedSuiteType.GREEN_AND_SHIELD -> if (configuration.isInformational) context.getDrawable(
+                R.drawable.green_banner
+            ) else context.getDrawable(
                 R.drawable.green_shield_banner
             )
         }
@@ -128,8 +125,8 @@ class LearnMoreDialog internal constructor(context: Context) :
     }
 
     private fun showTips(): Boolean {
-        if (isInformational) {
-            if (type == ShippedSuiteType.SHIELD) {
+        if (configuration.isInformational) {
+            if (configuration.type == ShippedSuiteType.SHIELD) {
                 return true
             }
             return false
@@ -144,7 +141,7 @@ class LearnMoreDialog internal constructor(context: Context) :
         private const val PRIVACY_POLICY_URL = "https://www.invisiblecommerce.com/privacy"
         private const val SHIPPED_GREEN_URL = "https://www.shippedapp.co/green"
 
-        fun show(context: Context, configuration: WidgetViewConfiguration) {
+        fun show(context: Context, configuration: ShippedSuiteConfiguration) {
             val dialog = LearnMoreDialog(context)
             dialog.configuration = configuration
             dialog.show()
