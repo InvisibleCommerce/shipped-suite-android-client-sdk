@@ -26,6 +26,13 @@ class WidgetViewTest {
             "pk_development_117c2ee46c122fb0ce070fbc984e6a4742040f05a1c73f8a900254a1933a0112"
         ShippedSuite.configurePublicKey(context, publicKey)
 
+        widgetView.configuration = ShippedSuiteConfiguration(
+            type = ShippedSuiteType.SHIELD,
+            isInformational = false,
+            isMandatory = true,
+            isRespectServer = true
+        )
+
         val defaultOrderValue = BigDecimal.valueOf(129.99)
         widgetView.updateOrderValue(defaultOrderValue)
 

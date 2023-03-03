@@ -1,8 +1,9 @@
+import android.os.SystemClock
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -26,7 +27,12 @@ class ExampleTest {
 
     @Test
     fun testLearnMoreDialog() {
-        Espresso.onView(ViewMatchers.withId(R.id.display_learn_more_model)).perform(click())
+        Espresso.onView(ViewMatchers.withId(R.id.display_learn_more_model))
+            .perform(click())
+
+        SystemClock.sleep(2000)
+
+        Espresso.onView(withId(com.invisiblecommerce.shippedsuite.R.id.shipped_title)).check(matches(isDisplayed()))
     }
 
     @Test
