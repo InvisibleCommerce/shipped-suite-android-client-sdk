@@ -26,12 +26,23 @@ class WidgetViewTest {
             "pk_development_117c2ee46c122fb0ce070fbc984e6a4742040f05a1c73f8a900254a1933a0112"
         ShippedSuite.configurePublicKey(context, publicKey)
 
-        widgetView.configuration = ShippedSuiteConfiguration(
+        var configuration = ShippedSuiteConfiguration(
             type = ShippedSuiteType.SHIELD,
             isInformational = false,
             isMandatory = true,
             isRespectServer = true
         )
+        widgetView.configuration = configuration
+
+        configuration.type = ShippedSuiteType.GREEN
+        configuration.isMandatory = false
+        widgetView.configuration = configuration
+        Assert.assertEquals(widgetView.configuration.type, ShippedSuiteType.GREEN)
+
+        configuration.type = ShippedSuiteType.GREEN_AND_SHIELD
+        configuration.isInformational = true
+        widgetView.configuration = configuration
+        Assert.assertEquals(widgetView.configuration.type, ShippedSuiteType.GREEN_AND_SHIELD)
 
         val defaultOrderValue = BigDecimal.valueOf(129.99)
         widgetView.updateOrderValue(defaultOrderValue)
