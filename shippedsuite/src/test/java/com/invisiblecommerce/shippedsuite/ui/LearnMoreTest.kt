@@ -20,6 +20,13 @@ class LearnMoreTest {
 
     @Test
     fun dialogTest() {
+        learnMoreDialog.configuration = ShippedSuiteConfiguration(
+            type = ShippedSuiteType.SHIELD,
+            isInformational = false,
+            isMandatory = true,
+            isRespectServer = true
+        )
+
         learnMoreDialog.configuration.type = ShippedSuiteType.GREEN_AND_SHIELD
         Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.GREEN_AND_SHIELD)
 

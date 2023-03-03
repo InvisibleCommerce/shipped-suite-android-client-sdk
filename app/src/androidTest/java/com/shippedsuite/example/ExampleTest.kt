@@ -33,6 +33,8 @@ class ExampleTest {
         SystemClock.sleep(2000)
 
         Espresso.onView(withId(com.invisiblecommerce.shippedsuite.R.id.shipped_title)).check(matches(isDisplayed()))
+
+        Espresso.onView(withId(com.invisiblecommerce.shippedsuite.R.id.shipped_done)).perform(click())
     }
 
     @Test
