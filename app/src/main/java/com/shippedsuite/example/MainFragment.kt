@@ -31,10 +31,10 @@ class MainFragment : Fragment() {
     private val defaultOrderValue = BigDecimal.valueOf(129.99)
 
     private val configuration = ShippedSuiteConfiguration(
-        ShippedSuiteType.SHIELD,
-        false,
-        true,
-        true
+        type = ShippedSuiteType.SHIELD,
+        isInformational = false,
+        isMandatory = true,
+        isRespectServer = true
     )
 
     private val binding: FragmentMainBinding by lazy {
