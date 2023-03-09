@@ -107,6 +107,13 @@ enum class ShippedSuiteType(val value: String) {
     }
 }
 
+data class ShippedSuiteConfiguration(
+    var type: ShippedSuiteType = ShippedSuiteType.SHIELD,
+    var isInformational: Boolean = false,
+    var isMandatory: Boolean = false,
+    var isRespectServer: Boolean = false
+) {}
+
 /**
 A widget view which shows the shield fee.
  */
@@ -127,26 +134,28 @@ class WidgetView @JvmOverloads constructor(
         fun onResult(result: Map<String, Any>)
     }
 
-    var type: ShippedSuiteType = ShippedSuiteType.GREEN
+    var configuration: ShippedSuiteConfiguration = ShippedSuiteConfiguration()
         set(value) {
             field = value
-            binding.widgetTitle.text = type.widgetTitle(context)
-            binding.widgetDesc.text = type.widgetDesc(context)
+            updateTexts()
+            hideToggleIfMandatory(value.isMandatory, value.isInformational)
+            hideFeeIfInformational(value.isInformational)
         }
 
-    var isMandatory: Boolean = false
+    private var cachedOffers: ShippedOffers? = null
         set(value) {
             field = value
-            hideToggleIfMandatory(isMandatory)
+            if (value != null) {
+                configuration.isMandatory =
+                    (cachedOffers?.isMandatory ?: false) || configuration.isMandatory
+                updateWidgetIfConfigsMismatch(value)
+                hideToggleIfMandatory(configuration.isMandatory, configuration.isInformational)
+            }
         }
-
-    var isRespectServer: Boolean = false
 
     var callback: Callback<BigDecimal>? = null
 
     private var job: Job? = null
-
-    private var cachedOffers: ShippedOffers? = null
 
     private val apiRepository: APIRepository by lazy {
         ShippedAPIRepository()
@@ -159,7 +168,7 @@ class WidgetView @JvmOverloads constructor(
     init {
         binding.learnMore.paintFlags = binding.learnMore.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         binding.learnMore.setOnClickListener {
-            LearnMoreDialog.show(context, type)
+            LearnMoreDialog.show(context, configuration)
         }
         binding.shippedSwitch.isChecked = widgetViewIsSelected
         binding.shippedSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -198,8 +207,7 @@ class WidgetView @JvmOverloads constructor(
     private fun onResult(offers: ShippedOffers? = null, error: ShippedException? = null) {
         when {
             offers != null -> {
-                updateWidgetIfConfigsMismatch(offers)
-                updateToggleLayoutConstraints(offers)
+                cachedOffers = offers
             }
             error != null -> {
                 updateWidgetIfError(error)
@@ -207,30 +215,46 @@ class WidgetView @JvmOverloads constructor(
         }
     }
 
-    private fun hideToggleIfMandatory(isMandatory: Boolean) {
-        if (isMandatory) {
+    private fun updateTexts() {
+        binding.widgetTitle.text = configuration.type.widgetTitle(context)
+        binding.widgetDesc.text = configuration.type.widgetDesc(context)
+        binding.shippedLogo.setImageDrawable(configuration.type.learnMoreLogo(context))
+    }
+
+    private fun hideFeeIfInformational(isInformational: Boolean) {
+        if (isInformational) {
+            binding.fee.visibility = GONE
+            binding.learnMore.textAlignment = TEXT_ALIGNMENT_VIEW_END
+        } else {
+            binding.fee.visibility = VISIBLE
+            binding.learnMore.textAlignment = TEXT_ALIGNMENT_VIEW_START
+        }
+    }
+
+    private fun hideToggleIfMandatory(isMandatory: Boolean, isInformational: Boolean) {
+        if (isMandatory || isInformational) {
             binding.shippedSwitch.visibility = GONE
-            binding.shippedSwitch.isChecked = true
             binding.shippedLogo.visibility = VISIBLE
         } else {
             binding.shippedSwitch.visibility = VISIBLE
             binding.shippedLogo.visibility = GONE
         }
-    }
-
-    private fun updateToggleLayoutConstraints(offers: ShippedOffers) {
-        hideToggleIfMandatory(offers.isMandatory || isMandatory)
+        if (isMandatory) {
+            binding.shippedSwitch.isChecked = true
+        }
     }
 
     private fun updateWidgetIfConfigsMismatch(offers: ShippedOffers) {
         var shouldUpdate = false
-        var isShild = type == ShippedSuiteType.SHIELD || type == ShippedSuiteType.GREEN_AND_SHIELD
-        var isGreen = type == ShippedSuiteType.GREEN || type == ShippedSuiteType.GREEN_AND_SHIELD
+        var isShild =
+            configuration.type == ShippedSuiteType.SHIELD || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD
+        var isGreen =
+            configuration.type == ShippedSuiteType.GREEN || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD
 
         if (isShild && !offers.isShieldAvailable()) {
             isShild = false
             shouldUpdate = true
-        } else if (!isShild && offers.isShieldAvailable() && isRespectServer) {
+        } else if (!isShild && offers.isShieldAvailable() && configuration.isRespectServer) {
             isShild = true
             shouldUpdate = true
         }
@@ -238,7 +262,7 @@ class WidgetView @JvmOverloads constructor(
         if (isGreen && !offers.isGreenAvailable()) {
             isGreen = false
             shouldUpdate = true
-        } else if (!isGreen && offers.isGreenAvailable() && isRespectServer) {
+        } else if (!isGreen && offers.isGreenAvailable() && configuration.isRespectServer) {
             isGreen = true
             shouldUpdate = true
         }
@@ -258,7 +282,7 @@ class WidgetView @JvmOverloads constructor(
         }
 
         if (shouldUpdate) {
-            type = if (isShild && !isGreen) {
+            configuration.type = if (isShild && !isGreen) {
                 ShippedSuiteType.SHIELD
             } else if (!isShild && isGreen) {
                 ShippedSuiteType.GREEN
@@ -267,10 +291,10 @@ class WidgetView @JvmOverloads constructor(
             } else {
                 ShippedSuiteType.SHIELD
             }
+            updateTexts()
         }
 
-        binding.fee.text = type.widgetFee(offers, context)
-        cachedOffers = offers
+        binding.fee.text = configuration.type.widgetFee(offers, context)
         triggerWidgetChangeWithError()
     }
 
@@ -283,12 +307,12 @@ class WidgetView @JvmOverloads constructor(
     private fun triggerWidgetChangeWithError(error: ShippedException? = null) {
         var values: MutableMap<String, Any> = mutableMapOf()
         values[IS_SELECTED_KEY] = widgetViewIsSelected
-        if (type == ShippedSuiteType.SHIELD || type == ShippedSuiteType.GREEN_AND_SHIELD) {
+        if (configuration.type == ShippedSuiteType.SHIELD || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
             cachedOffers?.shieldFee?.let {
                 values[SHIELD_FEE_KEY] = it
             }
         }
-        if (type == ShippedSuiteType.GREEN || type == ShippedSuiteType.GREEN_AND_SHIELD) {
+        if (configuration.type == ShippedSuiteType.GREEN || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
             cachedOffers?.greenFee?.let {
                 values[GREEN_FEE_KEY] = it
             }

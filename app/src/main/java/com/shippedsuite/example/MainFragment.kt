@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.invisiblecommerce.shippedsuite.ui.LearnMoreDialog
+import com.invisiblecommerce.shippedsuite.ui.ShippedSuiteConfiguration
 import com.invisiblecommerce.shippedsuite.ui.ShippedSuiteType
 import com.invisiblecommerce.shippedsuite.ui.WidgetView
 import com.shippedsuite.example.databinding.FragmentMainBinding
@@ -28,6 +29,13 @@ class MainFragment : Fragment() {
     }
 
     private val defaultOrderValue = BigDecimal.valueOf(129.99)
+
+    private val configuration = ShippedSuiteConfiguration(
+        type = ShippedSuiteType.SHIELD,
+        isInformational = false,
+        isMandatory = true,
+        isRespectServer = true
+    )
 
     private val binding: FragmentMainBinding by lazy {
         FragmentMainBinding.inflate(layoutInflater)
@@ -53,10 +61,8 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // WidgetView offers
-        binding.widgetView.type = ShippedSuiteType.GREEN
-        binding.widgetView.isMandatory = true
-        binding.widgetView.isRespectServer = true
+        // WidgetView setup
+        binding.widgetView.configuration = configuration
 
         // WidgetView callback
         binding.widgetView.callback = object : WidgetView.Callback<BigDecimal> {
@@ -109,7 +115,10 @@ class MainFragment : Fragment() {
 
         // Display learn more model manually
         binding.displayLearnMoreModel.setOnClickListener {
-            LearnMoreDialog.show(requireContext(), ShippedSuiteType.GREEN_AND_SHIELD)
+            LearnMoreDialog.show(
+                requireContext(),
+                configuration
+            )
         }
 
         // Get offers fee manually

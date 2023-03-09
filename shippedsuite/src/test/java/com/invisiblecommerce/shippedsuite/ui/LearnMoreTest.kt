@@ -20,13 +20,32 @@ class LearnMoreTest {
 
     @Test
     fun dialogTest() {
-        learnMoreDialog.type = ShippedSuiteType.GREEN_AND_SHIELD
-        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.GREEN_AND_SHIELD)
+        var configuration = ShippedSuiteConfiguration(
+            type = ShippedSuiteType.SHIELD,
+            isInformational = false,
+            isMandatory = true,
+            isRespectServer = true
+        )
 
-        learnMoreDialog.type = ShippedSuiteType.GREEN
-        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.GREEN)
+        learnMoreDialog.configuration = configuration
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.SHIELD)
 
-        learnMoreDialog.type = ShippedSuiteType.SHIELD
-        Assert.assertEquals(learnMoreDialog.type, ShippedSuiteType.SHIELD)
+        configuration.type = ShippedSuiteType.GREEN
+        learnMoreDialog.configuration = configuration
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.GREEN)
+
+        configuration.type = ShippedSuiteType.GREEN_AND_SHIELD
+        configuration.isInformational = true
+        learnMoreDialog.configuration = configuration
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.GREEN_AND_SHIELD)
+
+        learnMoreDialog.configuration.type = ShippedSuiteType.GREEN_AND_SHIELD
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.GREEN_AND_SHIELD)
+
+        learnMoreDialog.configuration.type = ShippedSuiteType.GREEN
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.GREEN)
+
+        learnMoreDialog.configuration.type = ShippedSuiteType.SHIELD
+        Assert.assertEquals(learnMoreDialog.configuration.type, ShippedSuiteType.SHIELD)
     }
 }

@@ -32,5 +32,10 @@ class ShippedPluginsTest {
 
         ShippedPlugins.widgetViewIsSelected = true
         assertTrue(ShippedPlugins.widgetViewIsSelected)
+
+        val configuration = ShippedConfiguration(context, publicKey, true, Mode.PRODUCTION)
+        assertEquals(configuration.publicKey, publicKey)
+        assertEquals(configuration.enableLogging, true)
+        assertEquals(configuration.environment, Mode.PRODUCTION)
     }
 }

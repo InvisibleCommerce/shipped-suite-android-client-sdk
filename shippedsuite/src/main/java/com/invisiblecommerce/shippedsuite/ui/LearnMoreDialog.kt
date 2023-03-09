@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -27,7 +28,7 @@ class LearnMoreDialog internal constructor(context: Context) :
         findViewById<Button>(R.id.shipped_done)?.setOnClickListener { dismiss() }
 
         binding.reportAnIssue.setOnClickListener {
-            if (type == ShippedSuiteType.GREEN) {
+            if (configuration.type == ShippedSuiteType.GREEN) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(DOWNLOAD_SHIPPED_URL))
                 startActivity(context, intent, null)
             } else {
@@ -45,40 +46,92 @@ class LearnMoreDialog internal constructor(context: Context) :
         }
     }
 
-    var type: ShippedSuiteType = ShippedSuiteType.GREEN
+    var configuration: ShippedSuiteConfiguration = ShippedSuiteConfiguration()
         set(value) {
             field = value
-            binding.shippedLogo.setImageDrawable(value.learnMoreLogo(context))
-            binding.shippedTitle.text = value.learnMoreTitle(context)
-            binding.shippedSubtitle.text = value.learnMoreSubtitle(context)
-            binding.shippedTipInfoOne.text = value.learnMoreTip0(context)
-            binding.shippedTipInfoTwo.text = value.learnMoreTip1(context)
-            binding.shippedTipInfoThree.text = value.learnMoreTip2(context)
-            if (value == ShippedSuiteType.SHIELD) {
-                binding.banner.visibility = View.GONE
-                binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.light_gray))
-            } else {
-                binding.banner.visibility = View.VISIBLE
-                binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.white))
-            }
-            val params = binding.banner.layoutParams
-            if (value == ShippedSuiteType.GREEN) {
-                params.height = context.resources.getDimension(R.dimen.green_banner_height).toInt()
-                binding.banner.setOnClickListener {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(SHIPPED_GREEN_URL))
-                    startActivity(context, intent, null)
-                }
-                binding.reportAnIssue.text = "Download Shipped"
-            } else if (value == ShippedSuiteType.GREEN_AND_SHIELD) {
-                params.height =
-                    context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
-            }
-            binding.banner.layoutParams = params
-            binding.banner.setImageDrawable(value.learnMoreBanner(context))
+            updateLayouts()
         }
+
+    private fun updateLayouts() {
+        binding.shippedLogo.setImageDrawable(configuration.type.learnMoreLogo(context))
+        binding.shippedTitle.text = configuration.type.learnMoreTitle(context)
+        val subtitle = when (configuration.type) {
+            ShippedSuiteType.GREEN -> context.getString(if (configuration.isInformational) R.string.learn_more_subtitle_green_informational else R.string.learn_more_subtitle_green)
+            ShippedSuiteType.SHIELD -> context.getString(if (configuration.isInformational) R.string.learn_more_subtitle_shield_informational else R.string.learn_more_subtitle_shield)
+            ShippedSuiteType.GREEN_AND_SHIELD -> context.getString(if (configuration.isInformational) R.string.learn_more_subtitle_green_shield_informational else R.string.learn_more_subtitle_green_shield)
+        }
+        binding.shippedSubtitle.text = subtitle
+        val showTips = showTips()
+        binding.shippedSubtitle.setTextSize(
+            TypedValue.COMPLEX_UNIT_SP,
+            if (configuration.isInformational) 16.0F else 17.0F
+        )
+        if (showTips) {
+            binding.tipTickOne.visibility = ConstraintLayout.VISIBLE
+            binding.shippedTipInfoOne.visibility = ConstraintLayout.VISIBLE
+            binding.shippedTipInfoOne.text = configuration.type.learnMoreTip0(context)
+            binding.tipTickTwo.visibility = ConstraintLayout.VISIBLE
+            binding.shippedTipInfoTwo.visibility = ConstraintLayout.VISIBLE
+            binding.shippedTipInfoTwo.text = configuration.type.learnMoreTip1(context)
+            binding.tipTickThree.visibility = ConstraintLayout.VISIBLE
+            binding.shippedTipInfoThree.visibility = ConstraintLayout.VISIBLE
+            binding.shippedTipInfoThree.text = configuration.type.learnMoreTip2(context)
+        } else {
+            binding.tipTickOne.visibility = ConstraintLayout.GONE
+            binding.shippedTipInfoOne.visibility = ConstraintLayout.GONE
+            binding.tipTickTwo.visibility = ConstraintLayout.GONE
+            binding.shippedTipInfoTwo.visibility = ConstraintLayout.GONE
+            binding.tipTickThree.visibility = ConstraintLayout.GONE
+            binding.shippedTipInfoThree.visibility = ConstraintLayout.GONE
+        }
+        if (configuration.type == ShippedSuiteType.SHIELD) {
+            binding.banner.visibility = View.GONE
+            binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.light_gray))
+        } else {
+            binding.banner.visibility = View.VISIBLE
+            binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.white))
+        }
+        val params = binding.banner.layoutParams
+        if (configuration.type == ShippedSuiteType.GREEN) {
+            params.height = context.resources.getDimension(R.dimen.green_banner_height).toInt()
+            binding.reportAnIssue.text = "Download Shipped"
+        } else if (configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
+            params.height =
+                context.resources.getDimension(R.dimen.green_shield_banner_height).toInt()
+        }
+        binding.banner.layoutParams = params
+
+        if (configuration.type == ShippedSuiteType.GREEN || (configuration.type == ShippedSuiteType.GREEN_AND_SHIELD && configuration.isInformational)) {
+            binding.banner.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(SHIPPED_GREEN_URL))
+                startActivity(context, intent, null)
+            }
+        }
+
+        val bannerRes = when (configuration.type) {
+            ShippedSuiteType.GREEN -> context.getDrawable(R.drawable.green_banner)
+            ShippedSuiteType.SHIELD -> null
+            ShippedSuiteType.GREEN_AND_SHIELD -> if (configuration.isInformational) context.getDrawable(
+                R.drawable.green_banner
+            ) else context.getDrawable(
+                R.drawable.green_shield_banner
+            )
+        }
+        binding.banner.setImageDrawable(bannerRes)
+    }
 
     private val binding by lazy {
         LearnMoreDialogBinding.inflate(LayoutInflater.from(context))
+    }
+
+    private fun showTips(): Boolean {
+        if (configuration.isInformational) {
+            if (configuration.type == ShippedSuiteType.SHIELD) {
+                return true
+            }
+            return false
+        }
+        return true
     }
 
     companion object {
@@ -88,9 +141,9 @@ class LearnMoreDialog internal constructor(context: Context) :
         private const val PRIVACY_POLICY_URL = "https://www.invisiblecommerce.com/privacy"
         private const val SHIPPED_GREEN_URL = "https://www.shippedapp.co/green"
 
-        fun show(context: Context, offers: ShippedSuiteType) {
+        fun show(context: Context, configuration: ShippedSuiteConfiguration) {
             val dialog = LearnMoreDialog(context)
-            dialog.type = offers
+            dialog.configuration = configuration
             dialog.show()
             dialog.window?.setLayout(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
