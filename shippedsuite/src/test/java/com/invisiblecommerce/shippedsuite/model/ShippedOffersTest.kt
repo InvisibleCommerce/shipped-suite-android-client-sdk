@@ -13,7 +13,9 @@ class ShippedOffersTest {
         storefrontId = "1",
         orderValue = BigDecimal.valueOf(129.99),
         shieldFee = BigDecimal.valueOf(2.27),
+        shieldFeeWithCurrency = null,
         greenFee = BigDecimal.valueOf(0.39),
+        greenFeeWithCurrency = null,
         isMandatory = true,
         offeredAt = date
     )

@@ -89,7 +89,7 @@ binding.widgetView.callback = object : WidgetView.Callback<BigDecimal> {
 ```
 
 ```
-Widget response {shieldFee=2.27, isSelected=false}
+Widget response {isSelected=false, totalFee=2.66}
 ```
 
 Within the callback, implement any logic necessary to add or remove Shield or Green from the cart, based on whether `isSelected` is true or false. 
