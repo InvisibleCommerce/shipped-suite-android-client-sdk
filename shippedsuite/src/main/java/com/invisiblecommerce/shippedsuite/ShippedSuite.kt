@@ -25,17 +25,19 @@ class ShippedSuite internal constructor(
     )
 
     /**
-     Get offers fee.
-     @param orderValue An order value.
-     @param listener A handler which includes shield & green fee.
+    Get offers fee.
+    @param orderValue An order value.
+    @param currency A currency code.
+    @param listener A handler which includes shield & green fee.
      */
     fun getOffersFee(
         orderValue: BigDecimal,
+        currency: String? = null,
         listener: Listener<ShippedOffers>
     ) {
         operationManager.startOperation(
             ShippedAPIRepository.ShippedRequestOptions(
-                request = ShippedRequest.Builder().setOrderValue(orderValue).build()
+                request = ShippedRequest.Builder().setOrderValue(orderValue).setCurrency(currency).build()
             ),
             listener
         )

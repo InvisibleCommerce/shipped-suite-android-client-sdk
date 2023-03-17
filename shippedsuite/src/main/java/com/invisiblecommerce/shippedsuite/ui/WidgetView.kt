@@ -128,7 +128,8 @@ data class ShippedSuiteConfiguration(
     var type: ShippedSuiteType = ShippedSuiteType.SHIELD,
     var isInformational: Boolean = false,
     var isMandatory: Boolean = false,
-    var isRespectServer: Boolean = false
+    var isRespectServer: Boolean = false,
+    var currency: String = "USD"
 ) {}
 
 /**
@@ -202,7 +203,7 @@ class WidgetView @JvmOverloads constructor(
                 requireNotNull(
                     apiRepository.getOffersFee(
                         ShippedAPIRepository.ShippedRequestOptions(
-                            request = ShippedRequest.Builder().setOrderValue(orderValue).build()
+                            request = ShippedRequest.Builder().setOrderValue(orderValue).setCurrency(configuration.currency).build()
                         )
                     )
                 )
