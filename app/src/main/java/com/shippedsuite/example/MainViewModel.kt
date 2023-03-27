@@ -28,8 +28,8 @@ internal class MainViewModel(
 
     fun getOffersFee(orderValue: BigDecimal) {
         shippedSuite.getOffersFee(
-            orderValue,
-            object : ShippedSuite.Listener<ShippedOffers> {
+            orderValue = orderValue,
+            listener = object : ShippedSuite.Listener<ShippedOffers> {
                 override fun onSuccess(response: ShippedOffers) {
                     shippedLiveData.value = ShippedOfferStatus.Success(response)
                 }

@@ -48,6 +48,64 @@ class ShippedOffersParserTest {
     }
 
     @Test
+    fun currencyParserTest() {
+        val jsonObject = JSONObject(
+            """
+                {
+                "decimal_mark": ".",
+                "symbol": "$",
+                "symbol_first": true,
+                "thousands_separator": ",",
+                "subunit_to_unit": 100,
+                "iso_code": "USD",
+                "name": "United States Dollar"
+                }
+            """.trimIndent()
+        )
+
+        val parser = ShippedCurrencyParser()
+        assertNotNull(parser.dateFormat)
+
+        val currency = parser.parse(jsonObject)
+        assertEquals(currency.decimalMark, ".")
+        assertEquals(currency.symbol, "$")
+        assertEquals(currency.symbolFirst, true)
+        assertEquals(currency.thousandsSeparator, ",")
+        assertEquals(currency.subunitToUnit, BigDecimal.valueOf(100.0))
+        assertEquals(currency.isoCode, "USD")
+        assertEquals(currency.name, "United States Dollar")
+    }
+
+    @Test
+    fun feeWithCurrencyParserTest() {
+        val jsonObject = JSONObject(
+            """
+                {
+                "currency": {
+                    "decimal_mark": ".",
+                    "symbol": "$",
+                    "symbol_first": true,
+                    "thousands_separator": ",",
+                    "subunit_to_unit": 100,
+                    "iso_code": "USD",
+                    "name": "United States Dollar"
+                },
+                "subunits": 277,
+                "formatted": "$2.77"
+                }
+            """.trimIndent()
+        )
+
+        val parser = ShippedFeeWithCurrencyParser()
+        assertNotNull(parser.dateFormat)
+
+        val feeWithCurrency = parser.parse(jsonObject)
+        assertNotNull(feeWithCurrency.currency)
+        assertEquals(feeWithCurrency.subunits, BigDecimal.valueOf(277.0))
+        assertEquals(feeWithCurrency.formatted, "$2.77")
+    }
+
+    @Test
     fun switchBuildVersion() {
         setFinalStatic(VERSION::class.java.getField("SDK_INT"), 25)
 

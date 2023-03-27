@@ -17,7 +17,10 @@ import com.invisiblecommerce.shippedsuite.model.ShippedOffers
 import com.invisiblecommerce.shippedsuite.model.ShippedRequest
 import kotlinx.coroutines.*
 import java.math.BigDecimal
-import java.text.NumberFormat
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import kotlin.math.log10
+import kotlin.math.round
 
 enum class ShippedSuiteType(val value: String) {
     GREEN("green"), SHIELD("shield"), GREEN_AND_SHIELD("green_shield");
@@ -44,8 +47,22 @@ enum class ShippedSuiteType(val value: String) {
             SHIELD -> offers.shieldFee
             GREEN_AND_SHIELD -> if (offers.greenFee != null && offers.shieldFee != null) offers.greenFee + offers.shieldFee else null
         }
-        if (fee != null) {
-            return NumberFormat.getCurrencyInstance().format(fee)
+
+        val currency = offers.shieldFeeWithCurrency?.currency
+        if (fee != null && currency != null) {
+            val space = if (currency.symbol.length > 2) " " else ""
+
+            val otherSymbols = DecimalFormatSymbols()
+            otherSymbols.decimalSeparator = currency.decimalMark.first()
+            otherSymbols.groupingSeparator = currency.thousandsSeparator.first()
+            val df = DecimalFormat("#,###.##", otherSymbols)
+            val fractionDigits = round(log10(currency.subunitToUnit.toDouble()))
+            df.maximumFractionDigits = fractionDigits.toInt()
+
+            if (currency.symbolFirst) {
+                return "\u202A" + currency.symbol + "\u202C" + space + df.format(fee)
+            }
+            return "\u202A" + df.format(fee) + space + currency.symbol + "\u202C"
         }
         return context.getString(R.string.shipped_fee_default)
     }
@@ -111,7 +128,8 @@ data class ShippedSuiteConfiguration(
     var type: ShippedSuiteType = ShippedSuiteType.SHIELD,
     var isInformational: Boolean = false,
     var isMandatory: Boolean = false,
-    var isRespectServer: Boolean = false
+    var isRespectServer: Boolean = false,
+    var currency: String = "USD"
 ) {}
 
 /**
@@ -125,8 +143,7 @@ class WidgetView @JvmOverloads constructor(
 
     companion object {
         const val IS_SELECTED_KEY = "isSelected"
-        const val SHIELD_FEE_KEY = "shieldFee"
-        const val GREEN_FEE_KEY = "greenFee"
+        const val TOTAL_FEE_KEY = "totalFee"
         const val ERROR_KEY = "error"
     }
 
@@ -186,7 +203,7 @@ class WidgetView @JvmOverloads constructor(
                 requireNotNull(
                     apiRepository.getOffersFee(
                         ShippedAPIRepository.ShippedRequestOptions(
-                            request = ShippedRequest.Builder().setOrderValue(orderValue).build()
+                            request = ShippedRequest.Builder().setOrderValue(orderValue).setCurrency(configuration.currency).build()
                         )
                     )
                 )
@@ -307,16 +324,26 @@ class WidgetView @JvmOverloads constructor(
     private fun triggerWidgetChangeWithError(error: ShippedException? = null) {
         var values: MutableMap<String, Any> = mutableMapOf()
         values[IS_SELECTED_KEY] = widgetViewIsSelected
-        if (configuration.type == ShippedSuiteType.SHIELD || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
-            cachedOffers?.shieldFee?.let {
-                values[SHIELD_FEE_KEY] = it
+        cachedOffers?.let { offers ->
+            if (configuration.type == ShippedSuiteType.SHIELD) {
+                offers.shieldFee?.let {
+                    values[TOTAL_FEE_KEY] = it
+                }
+            }
+            if (configuration.type == ShippedSuiteType.GREEN) {
+                offers.greenFee?.let {
+                    values[TOTAL_FEE_KEY] = it
+                }
+            }
+            if (configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
+                offers.greenFee?.let { greenFee ->
+                    offers.shieldFee?.let { shieldFee ->
+                        values[TOTAL_FEE_KEY] = greenFee + shieldFee
+                    }
+                }
             }
         }
-        if (configuration.type == ShippedSuiteType.GREEN || configuration.type == ShippedSuiteType.GREEN_AND_SHIELD) {
-            cachedOffers?.greenFee?.let {
-                values[GREEN_FEE_KEY] = it
-            }
-        }
+
         if (error != null) {
             values[ERROR_KEY] = error
         }

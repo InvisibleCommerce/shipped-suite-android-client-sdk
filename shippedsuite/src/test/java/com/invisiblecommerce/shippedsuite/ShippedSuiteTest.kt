@@ -42,8 +42,8 @@ class ShippedSuiteTest {
 
         val defaultOrderValue = BigDecimal.valueOf(129.99)
         ShippedSuite(UnconfinedTestDispatcher()).getOffersFee(
-            defaultOrderValue,
-            object : ShippedSuite.Listener<ShippedOffers> {
+            orderValue = defaultOrderValue,
+            listener = object : ShippedSuite.Listener<ShippedOffers> {
                 override fun onSuccess(response: ShippedOffers) {
                     assert(true)
                 }

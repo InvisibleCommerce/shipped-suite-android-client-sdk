@@ -34,7 +34,8 @@ class MainFragment : Fragment() {
         type = ShippedSuiteType.SHIELD,
         isInformational = false,
         isMandatory = true,
-        isRespectServer = true
+        isRespectServer = true,
+        currency = "EUR"
     )
 
     private val binding: FragmentMainBinding by lazy {
@@ -119,6 +120,7 @@ class MainFragment : Fragment() {
                 requireContext(),
                 configuration
             )
+
         }
 
         // Get offers fee manually
