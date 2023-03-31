@@ -36,7 +36,7 @@ class ExampleTest {
 
         Espresso.onView(withId(com.invisiblecommerce.shippedsuite.R.id.shipped_title)).check(matches(isDisplayed()))
 
-        Espresso.onView(withId(com.invisiblecommerce.shippedsuite.R.id.scroll_view)).perform(ViewActions.swipeUp());
+        Espresso.onView(withId(com.invisiblecommerce.shippedsuite.R.id.scroll_view)).perform(ViewActions.swipeUp())
 
         Espresso.onView(withId(com.invisiblecommerce.shippedsuite.R.id.shipped_done)).perform(click())
     }

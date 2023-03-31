@@ -120,7 +120,6 @@ class MainFragment : Fragment() {
                 requireContext(),
                 configuration
             )
-
         }
 
         // Get offers fee manually

@@ -130,7 +130,7 @@ data class ShippedSuiteConfiguration(
     var isMandatory: Boolean = false,
     var isRespectServer: Boolean = false,
     var currency: String = "USD"
-) {}
+)
 
 /**
 A widget view which shows the shield fee.
