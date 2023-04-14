@@ -24,7 +24,7 @@ Add `shippedsuite` to your `build.gradle` dependencies.
 
 ```
 dependencies {
-    implementation 'com.invisiblecommerce:shippedsuite:1.0.0'
+    implementation 'com.invisiblecommerce:shippedsuite:1.0.1'
 }
 ```
 
