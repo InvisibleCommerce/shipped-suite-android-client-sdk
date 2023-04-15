@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.invisiblecommerce.shippedsuite.APIRepository
@@ -241,10 +242,10 @@ class WidgetView @JvmOverloads constructor(
     private fun hideFeeIfInformational(isInformational: Boolean) {
         if (isInformational) {
             binding.fee.visibility = GONE
-            binding.learnMore.textAlignment = TEXT_ALIGNMENT_VIEW_END
+            binding.learnMore.gravity = Gravity.END
         } else {
             binding.fee.visibility = VISIBLE
-            binding.learnMore.textAlignment = TEXT_ALIGNMENT_VIEW_START
+            binding.learnMore.gravity = Gravity.START
         }
     }
 
