@@ -2,4 +2,12 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="light_gray">#F4F4F5</color>
+    
+    <color name="widget_title_light_color">#1A1A1A</color>
+    <color name="widget_learn_more_light_color">#4D4D4D</color>
+    <color name="widget_info_light_color">#4D4D4D</color>
+
+    <color name="widget_title_dark_color">#E6E6E6</color>
+    <color name="widget_learn_more_dark_color">#B2B2B2</color>
+    <color name="widget_info_dark_color">#CCCCCC</color>
 </resources>

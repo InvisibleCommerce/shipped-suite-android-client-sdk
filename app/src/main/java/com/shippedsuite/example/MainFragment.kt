@@ -13,10 +13,7 @@ import android.widget.TextView.OnEditorActionListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.invisiblecommerce.shippedsuite.ui.LearnMoreDialog
-import com.invisiblecommerce.shippedsuite.ui.ShippedSuiteConfiguration
-import com.invisiblecommerce.shippedsuite.ui.ShippedSuiteType
-import com.invisiblecommerce.shippedsuite.ui.WidgetView
+import com.invisiblecommerce.shippedsuite.ui.*
 import com.shippedsuite.example.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -35,7 +32,8 @@ class MainFragment : Fragment() {
         isInformational = false,
         isMandatory = true,
         isRespectServer = true,
-        currency = "EUR"
+        currency = "EUR",
+        appearance = ShippedSuiteAppearance.AUTO
     )
 
     private val binding: FragmentMainBinding by lazy {
