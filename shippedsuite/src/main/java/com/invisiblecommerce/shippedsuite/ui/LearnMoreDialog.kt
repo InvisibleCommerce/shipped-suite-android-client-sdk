@@ -60,7 +60,7 @@ class LearnMoreDialog internal constructor(context: Context) :
             binding.shippedSubtitle.setTextColor(context.resources.getColor(R.color.modal_subtitle_dark_color))
             binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.modal_action_view_dark_color))
             binding.shippedMessage.setTextColor(context.resources.getColor(R.color.modal_action_text_dark_color))
-            binding.shippedDone.setBackgroundColor(context.resources.getColor(R.color.modal_cta_background_dark_color))
+            binding.shippedDone.setBackgroundDrawable(context.resources.getDrawable(R.drawable.shipped_button_solid_dark))
             binding.shippedTipInfoOne.setTextColor(context.resources.getColor(R.color.modal_title_dark_color))
             binding.shippedTipInfoTwo.setTextColor(context.resources.getColor(R.color.modal_title_dark_color))
             binding.shippedTipInfoThree.setTextColor(context.resources.getColor(R.color.modal_title_dark_color))
@@ -74,7 +74,7 @@ class LearnMoreDialog internal constructor(context: Context) :
                 binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.white))
             }
             binding.shippedMessage.setTextColor(context.resources.getColor(R.color.modal_action_text_light_color))
-            binding.shippedDone.setBackgroundColor(context.resources.getColor(R.color.modal_cta_background_light_color))
+            binding.shippedDone.setBackgroundDrawable(context.resources.getDrawable(R.drawable.shipped_button_solid))
             binding.shippedTipInfoOne.setTextColor(context.resources.getColor(R.color.modal_title_light_color))
             binding.shippedTipInfoTwo.setTextColor(context.resources.getColor(R.color.modal_title_light_color))
             binding.shippedTipInfoThree.setTextColor(context.resources.getColor(R.color.modal_title_light_color))
