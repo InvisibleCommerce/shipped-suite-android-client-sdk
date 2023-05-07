@@ -30,7 +30,8 @@ class WidgetViewTest {
             type = ShippedSuiteType.SHIELD,
             isInformational = false,
             isMandatory = true,
-            isRespectServer = true
+            isRespectServer = true,
+            appearance = ShippedSuiteAppearance.LIGHT
         )
         widgetView.configuration = configuration
 
@@ -70,6 +71,7 @@ class WidgetViewTest {
         Assert.assertEquals(configuration.isMandatory, false)
         Assert.assertEquals(configuration.isInformational, false)
         Assert.assertEquals(configuration.isRespectServer, false)
+        Assert.assertEquals(configuration.appearance, ShippedSuiteAppearance.AUTO)
 
         configuration.type = ShippedSuiteType.GREEN
         Assert.assertEquals(configuration.type, ShippedSuiteType.GREEN)
@@ -82,5 +84,8 @@ class WidgetViewTest {
 
         configuration.isRespectServer = true
         Assert.assertEquals(configuration.isRespectServer, true)
+
+        configuration.appearance = ShippedSuiteAppearance.DARK
+        Assert.assertEquals(configuration.appearance, ShippedSuiteAppearance.DARK)
     }
 }
