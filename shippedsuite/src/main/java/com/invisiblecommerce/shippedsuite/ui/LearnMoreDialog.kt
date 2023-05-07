@@ -49,8 +49,41 @@ class LearnMoreDialog internal constructor(context: Context) :
     var configuration: ShippedSuiteConfiguration = ShippedSuiteConfiguration()
         set(value) {
             field = value
+            updateAppearance()
             updateLayouts()
         }
+
+    private fun updateAppearance(isDarkMode: Boolean) {
+        if (isDarkMode) {
+            binding.scrollView.setBackgroundColor(context.resources.getColor(R.color.modal_background_dark_color))
+            binding.shippedTitle.setTextColor(context.resources.getColor(R.color.modal_title_dark_color))
+            binding.shippedSubtitle.setTextColor(context.resources.getColor(R.color.modal_subtitle_dark_color))
+            binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.modal_action_view_dark_color))
+            binding.shippedMessage.setTextColor(context.resources.getColor(R.color.modal_action_text_dark_color))
+            binding.shippedDone.setBackgroundColor(context.resources.getColor(R.color.modal_cta_background_dark_color))
+            binding.shippedTipInfoOne.setTextColor(context.resources.getColor(R.color.modal_title_dark_color))
+            binding.shippedTipInfoTwo.setTextColor(context.resources.getColor(R.color.modal_title_dark_color))
+            binding.shippedTipInfoThree.setTextColor(context.resources.getColor(R.color.modal_title_dark_color))
+        } else {
+            binding.scrollView.setBackgroundColor(context.resources.getColor(R.color.modal_background_light_color))
+            binding.shippedTitle.setTextColor(context.resources.getColor(R.color.modal_title_light_color))
+            binding.shippedSubtitle.setTextColor(context.resources.getColor(R.color.modal_subtitle_light_color))
+            if (configuration.type == ShippedSuiteType.SHIELD) {
+                binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.modal_action_view_light_color))
+            } else {
+                binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.white))
+            }
+            binding.shippedMessage.setTextColor(context.resources.getColor(R.color.modal_action_text_light_color))
+            binding.shippedDone.setBackgroundColor(context.resources.getColor(R.color.modal_cta_background_light_color))
+            binding.shippedTipInfoOne.setTextColor(context.resources.getColor(R.color.modal_title_light_color))
+            binding.shippedTipInfoTwo.setTextColor(context.resources.getColor(R.color.modal_title_light_color))
+            binding.shippedTipInfoThree.setTextColor(context.resources.getColor(R.color.modal_title_light_color))
+        }
+    }
+
+    private fun updateAppearance() {
+        updateAppearance(configuration.appearance.isDarkMode(context))
+    }
 
     private fun updateLayouts() {
         binding.shippedLogo.setImageDrawable(configuration.type.learnMoreLogo(context))
@@ -86,10 +119,8 @@ class LearnMoreDialog internal constructor(context: Context) :
         }
         if (configuration.type == ShippedSuiteType.SHIELD) {
             binding.banner.visibility = View.GONE
-            binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.light_gray))
         } else {
             binding.banner.visibility = View.VISIBLE
-            binding.shippedBottom.setBackgroundColor(context.resources.getColor(R.color.white))
         }
         val params = binding.banner.layoutParams
         if (configuration.type == ShippedSuiteType.GREEN) {
@@ -114,7 +145,7 @@ class LearnMoreDialog internal constructor(context: Context) :
             ShippedSuiteType.GREEN_AND_SHIELD -> if (configuration.isInformational) context.getDrawable(
                 R.drawable.green_banner
             ) else context.getDrawable(
-                R.drawable.green_shield_banner
+                if (configuration.appearance.isDarkMode(context)) R.drawable.green_shield_dark_banner else R.drawable.green_shield_banner
             )
         }
         binding.banner.setImageDrawable(bannerRes)

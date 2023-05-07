@@ -32,6 +32,12 @@ enum class ShippedSuiteAppearance(val value: String) {
         return currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 
+    fun isDarkMode(context: Context): Boolean {
+        if (this == AUTO && isSystemNightMode(context)) return true
+        if (this == DARK) return true
+        return false
+    }
+
     fun widgetTitleColor(context: Context): Int {
         return when(this) {
             LIGHT -> context.resources.getColor(R.color.widget_title_light_color)

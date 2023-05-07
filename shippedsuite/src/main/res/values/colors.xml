@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="light_gray">#F4F4F5</color>
     
     <color name="widget_title_light_color">#1A1A1A</color>
-    <color name="widget_learn_more_light_color">#4D4D4D</color>
-    <color name="widget_info_light_color">#4D4D4D</color>
-
     <color name="widget_title_dark_color">#E6E6E6</color>
+
+    <color name="widget_learn_more_light_color">#4D4D4D</color>
     <color name="widget_learn_more_dark_color">#B2B2B2</color>
+
+    <color name="widget_info_light_color">#4D4D4D</color>
     <color name="widget_info_dark_color">#CCCCCC</color>
+
+    <color name="modal_background_light_color">#FFFFFF</color>
+    <color name="modal_background_dark_color">#1C1C1E</color>
+
+    <color name="modal_title_light_color">#000000</color>
+    <color name="modal_title_dark_color">#FFFFFF</color>
+
+    <color name="modal_subtitle_light_color">#000000</color>
+    <color name="modal_subtitle_dark_color">#FFFFFF</color>
+
+    <color name="modal_action_view_light_color">#13747480</color>
+    <color name="modal_action_view_dark_color">#19ffffff</color>
+
+    <color name="modal_action_text_light_color">#993c3c43</color>
+    <color name="modal_action_text_dark_color">#7fffffff</color>
+
+    <color name="modal_cta_background_light_color">#FFC933</color>
+    <color name="modal_cta_background_dark_color">#FFCF4D</color>
 </resources>
