@@ -28,7 +28,8 @@ enum class ShippedSuiteAppearance(val value: String) {
     LIGHT("light"), DARK("dark"), AUTO("auto");
 
     private fun isSystemNightMode(context: Context): Boolean {
-        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val currentNightMode =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 
@@ -39,37 +40,44 @@ enum class ShippedSuiteAppearance(val value: String) {
     }
 
     fun widgetTitleColor(context: Context): Int {
-        return when(this) {
+        return when (this) {
             LIGHT -> context.resources.getColor(R.color.widget_title_light_color)
             DARK -> context.resources.getColor(R.color.widget_title_dark_color)
-            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_title_dark_color) else context.resources.getColor(R.color.widget_title_light_color)
+            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_title_dark_color) else context.resources.getColor(
+                R.color.widget_title_light_color
+            )
         }
     }
 
     fun widgetLearnMoreColor(context: Context): Int {
-        return when(this) {
+        return when (this) {
             LIGHT -> context.resources.getColor(R.color.widget_learn_more_light_color)
             DARK -> context.resources.getColor(R.color.widget_learn_more_dark_color)
-            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_learn_more_dark_color) else context.resources.getColor(R.color.widget_learn_more_light_color)
+            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_learn_more_dark_color) else context.resources.getColor(
+                R.color.widget_learn_more_light_color
+            )
         }
     }
 
     fun widgetFeeColor(context: Context): Int {
-        return when(this) {
+        return when (this) {
             LIGHT -> context.resources.getColor(R.color.widget_title_light_color)
             DARK -> context.resources.getColor(R.color.widget_title_dark_color)
-            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_title_dark_color) else context.resources.getColor(R.color.widget_title_light_color)
+            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_title_dark_color) else context.resources.getColor(
+                R.color.widget_title_light_color
+            )
         }
     }
 
     fun widgetDescColor(context: Context): Int {
-        return when(this) {
+        return when (this) {
             LIGHT -> context.resources.getColor(R.color.widget_info_light_color)
             DARK -> context.resources.getColor(R.color.widget_info_dark_color)
-            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_info_dark_color) else context.resources.getColor(R.color.widget_info_light_color)
+            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_info_dark_color) else context.resources.getColor(
+                R.color.widget_info_light_color
+            )
         }
     }
-
 }
 
 enum class ShippedSuiteType(val value: String) {
@@ -254,7 +262,8 @@ class WidgetView @JvmOverloads constructor(
                 requireNotNull(
                     apiRepository.getOffersFee(
                         ShippedAPIRepository.ShippedRequestOptions(
-                            request = ShippedRequest.Builder().setOrderValue(orderValue).setCurrency(configuration.currency).build()
+                            request = ShippedRequest.Builder().setOrderValue(orderValue)
+                                .setCurrency(configuration.currency).build()
                         )
                     )
                 )
