@@ -3,12 +3,16 @@ package com.invisiblecommerce.shippedsuite.ui
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.invisiblecommerce.shippedsuite.ShippedSuite
+import com.invisiblecommerce.shippedsuite.model.ShippedCurrency
+import com.invisiblecommerce.shippedsuite.model.ShippedFeeWithCurrency
+import com.invisiblecommerce.shippedsuite.model.ShippedOffers
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.math.BigDecimal
+import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [29])
@@ -87,5 +91,77 @@ class WidgetViewTest {
 
         configuration.appearance = ShippedSuiteAppearance.DARK
         Assert.assertEquals(configuration.appearance, ShippedSuiteAppearance.DARK)
+    }
+
+    @Test
+    fun typeTest() {
+        val currency = ShippedCurrency(
+            ",",
+            "€",
+            true,
+            ".",
+            BigDecimal(100),
+            "EUR",
+            "Euro"
+        )
+        val shieldFeeWithCurrency = ShippedFeeWithCurrency(
+            currency,
+            BigDecimal(227),
+            "€2,27"
+        )
+        val greenFeeWithCurrency = ShippedFeeWithCurrency(
+            currency,
+            BigDecimal(39),
+            "€0,39"
+        )
+        val offers = ShippedOffers(
+            storefrontId = "",
+            orderValue = BigDecimal(129.99),
+            shieldFee = BigDecimal(2.99),
+            shieldFeeWithCurrency = shieldFeeWithCurrency,
+            greenFee = BigDecimal(0.56),
+            greenFeeWithCurrency = greenFeeWithCurrency,
+            isMandatory = false,
+            offeredAt = Date()
+        )
+
+        val shield = ShippedSuiteType.SHIELD
+        Assert.assertNotNull(shield.widgetFee(offers, context))
+        Assert.assertNotNull(shield.learnMoreSubtitle(context))
+        Assert.assertNotNull(shield.learnMoreBanner(context))
+
+        val green = ShippedSuiteType.GREEN
+        Assert.assertNotNull(green.widgetFee(offers, context))
+        Assert.assertNotNull(green.learnMoreSubtitle(context))
+        Assert.assertNotNull(green.learnMoreBanner(context))
+
+        val greenAndShield = ShippedSuiteType.GREEN_AND_SHIELD
+        Assert.assertNotNull(greenAndShield.widgetFee(offers, context))
+        Assert.assertNotNull(greenAndShield.learnMoreSubtitle(context))
+        Assert.assertNotNull(greenAndShield.learnMoreBanner(context))
+    }
+
+    @Test
+    fun appearanceTest() {
+        val autoAppearance = ShippedSuiteAppearance.AUTO
+        Assert.assertFalse(autoAppearance.isDarkMode(context))
+        Assert.assertNotNull(autoAppearance.widgetTitleColor(context))
+        Assert.assertNotNull(autoAppearance.widgetLearnMoreColor(context))
+        Assert.assertNotNull(autoAppearance.widgetFeeColor(context))
+        Assert.assertNotNull(autoAppearance.widgetDescColor(context))
+
+        val lightAppearance = ShippedSuiteAppearance.LIGHT
+        Assert.assertFalse(lightAppearance.isDarkMode(context))
+        Assert.assertNotNull(lightAppearance.widgetTitleColor(context))
+        Assert.assertNotNull(lightAppearance.widgetLearnMoreColor(context))
+        Assert.assertNotNull(autoAppearance.widgetFeeColor(context))
+        Assert.assertNotNull(autoAppearance.widgetDescColor(context))
+
+        val darkAppearance = ShippedSuiteAppearance.DARK
+        Assert.assertTrue(darkAppearance.isDarkMode(context))
+        Assert.assertNotNull(darkAppearance.widgetTitleColor(context))
+        Assert.assertNotNull(darkAppearance.widgetLearnMoreColor(context))
+        Assert.assertNotNull(autoAppearance.widgetFeeColor(context))
+        Assert.assertNotNull(autoAppearance.widgetDescColor(context))
     }
 }
