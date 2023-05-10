@@ -24,7 +24,8 @@ class LearnMoreTest {
             type = ShippedSuiteType.SHIELD,
             isInformational = false,
             isMandatory = true,
-            isRespectServer = true
+            isRespectServer = true,
+            appearance = ShippedSuiteAppearance.DARK
         )
 
         learnMoreDialog.configuration = configuration

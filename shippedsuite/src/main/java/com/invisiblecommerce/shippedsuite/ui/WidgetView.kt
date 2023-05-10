@@ -1,6 +1,7 @@
 package com.invisiblecommerce.shippedsuite.ui
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -22,6 +23,62 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import kotlin.math.log10
 import kotlin.math.round
+
+enum class ShippedSuiteAppearance(val value: String) {
+    LIGHT("light"), DARK("dark"), AUTO("auto");
+
+    private fun isSystemNightMode(context: Context): Boolean {
+        val currentNightMode =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    fun isDarkMode(context: Context): Boolean {
+        if (this == AUTO && isSystemNightMode(context)) return true
+        if (this == DARK) return true
+        return false
+    }
+
+    fun widgetTitleColor(context: Context): Int {
+        return when (this) {
+            LIGHT -> context.resources.getColor(R.color.widget_title_light_color)
+            DARK -> context.resources.getColor(R.color.widget_title_dark_color)
+            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_title_dark_color) else context.resources.getColor(
+                R.color.widget_title_light_color
+            )
+        }
+    }
+
+    fun widgetLearnMoreColor(context: Context): Int {
+        return when (this) {
+            LIGHT -> context.resources.getColor(R.color.widget_learn_more_light_color)
+            DARK -> context.resources.getColor(R.color.widget_learn_more_dark_color)
+            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_learn_more_dark_color) else context.resources.getColor(
+                R.color.widget_learn_more_light_color
+            )
+        }
+    }
+
+    fun widgetFeeColor(context: Context): Int {
+        return when (this) {
+            LIGHT -> context.resources.getColor(R.color.widget_title_light_color)
+            DARK -> context.resources.getColor(R.color.widget_title_dark_color)
+            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_title_dark_color) else context.resources.getColor(
+                R.color.widget_title_light_color
+            )
+        }
+    }
+
+    fun widgetDescColor(context: Context): Int {
+        return when (this) {
+            LIGHT -> context.resources.getColor(R.color.widget_info_light_color)
+            DARK -> context.resources.getColor(R.color.widget_info_dark_color)
+            AUTO -> if (isSystemNightMode(context)) context.resources.getColor(R.color.widget_info_dark_color) else context.resources.getColor(
+                R.color.widget_info_light_color
+            )
+        }
+    }
+}
 
 enum class ShippedSuiteType(val value: String) {
     GREEN("green"), SHIELD("shield"), GREEN_AND_SHIELD("green_shield");
@@ -130,7 +187,8 @@ data class ShippedSuiteConfiguration(
     var isInformational: Boolean = false,
     var isMandatory: Boolean = false,
     var isRespectServer: Boolean = false,
-    var currency: String = "USD"
+    var currency: String = "USD",
+    var appearance: ShippedSuiteAppearance = ShippedSuiteAppearance.AUTO
 )
 
 /**
@@ -204,7 +262,8 @@ class WidgetView @JvmOverloads constructor(
                 requireNotNull(
                     apiRepository.getOffersFee(
                         ShippedAPIRepository.ShippedRequestOptions(
-                            request = ShippedRequest.Builder().setOrderValue(orderValue).setCurrency(configuration.currency).build()
+                            request = ShippedRequest.Builder().setOrderValue(orderValue)
+                                .setCurrency(configuration.currency).build()
                         )
                     )
                 )
@@ -235,7 +294,11 @@ class WidgetView @JvmOverloads constructor(
 
     private fun updateTexts() {
         binding.widgetTitle.text = configuration.type.widgetTitle(context)
+        binding.widgetTitle.setTextColor(configuration.appearance.widgetTitleColor(context))
+        binding.learnMore.setTextColor(configuration.appearance.widgetLearnMoreColor(context))
+        binding.fee.setTextColor(configuration.appearance.widgetFeeColor(context))
         binding.widgetDesc.text = configuration.type.widgetDesc(context)
+        binding.widgetDesc.setTextColor(configuration.appearance.widgetDescColor(context))
         binding.shippedLogo.setImageDrawable(configuration.type.learnMoreLogo(context))
     }
 
