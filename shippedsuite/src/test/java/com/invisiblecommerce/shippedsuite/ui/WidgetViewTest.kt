@@ -128,7 +128,7 @@ class WidgetViewTest {
         val shield = ShippedSuiteType.SHIELD
         Assert.assertNotNull(shield.widgetFee(offers, context))
         Assert.assertNotNull(shield.learnMoreSubtitle(context))
-        Assert.assertNotNull(shield.learnMoreBanner(context))
+        Assert.assertNull(shield.learnMoreBanner(context))
 
         val green = ShippedSuiteType.GREEN
         Assert.assertNotNull(green.widgetFee(offers, context))
