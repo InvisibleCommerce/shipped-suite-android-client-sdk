@@ -66,7 +66,9 @@ private val configuration = ShippedSuiteConfiguration(
     type = ShippedSuiteType.SHIELD,
     isInformational = false,
     isMandatory = true,
-    isRespectServer = true
+    isRespectServer = true,
+    currency = "USD",
+    appearance = ShippedSuiteAppearance.AUTO
 )
 
 binding.widgetView.configuration = configuration
