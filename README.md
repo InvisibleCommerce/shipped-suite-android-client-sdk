@@ -24,7 +24,7 @@ Add `shippedsuite` to your `build.gradle` dependencies.
 
 ```
 dependencies {
-    implementation 'com.invisiblecommerce:shippedsuite:1.0.1'
+    implementation 'com.invisiblecommerce:shippedsuite:1.0.2'
 }
 ```
 
@@ -66,7 +66,9 @@ private val configuration = ShippedSuiteConfiguration(
     type = ShippedSuiteType.SHIELD,
     isInformational = false,
     isMandatory = true,
-    isRespectServer = true
+    isRespectServer = true,
+    currency = "USD",
+    appearance = ShippedSuiteAppearance.AUTO
 )
 
 binding.widgetView.configuration = configuration
