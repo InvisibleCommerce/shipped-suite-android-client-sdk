@@ -218,6 +218,8 @@ class WidgetView @JvmOverloads constructor(
             hideFeeIfInformational(value.isInformational)
         }
 
+    private var orderValue: BigDecimal? = null
+
     private var cachedOffers: ShippedOffers? = null
         set(value) {
             field = value
@@ -254,6 +256,8 @@ class WidgetView @JvmOverloads constructor(
     }
 
     fun updateOrderValue(orderValue: BigDecimal) {
+        this.orderValue = orderValue
+
         // Cancel job first
         cancelJob()
 
@@ -420,6 +424,13 @@ class WidgetView @JvmOverloads constructor(
         } else {
             APIException(message = throwable.message)
         }
+    }
+
+    override fun onAttachedToWindow() {
+        orderValue?.let {
+            updateOrderValue(it)
+        }
+        super.onAttachedToWindow()
     }
 
     override fun onDetachedFromWindow() {
