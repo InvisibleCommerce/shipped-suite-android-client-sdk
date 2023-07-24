@@ -155,14 +155,14 @@ class WidgetViewTest {
         Assert.assertFalse(lightAppearance.isDarkMode(context))
         Assert.assertNotNull(lightAppearance.widgetTitleColor(context))
         Assert.assertNotNull(lightAppearance.widgetLearnMoreColor(context))
-        Assert.assertNotNull(autoAppearance.widgetFeeColor(context))
-        Assert.assertNotNull(autoAppearance.widgetDescColor(context))
+        Assert.assertNotNull(lightAppearance.widgetFeeColor(context))
+        Assert.assertNotNull(lightAppearance.widgetDescColor(context))
 
         val darkAppearance = ShippedSuiteAppearance.DARK
         Assert.assertTrue(darkAppearance.isDarkMode(context))
         Assert.assertNotNull(darkAppearance.widgetTitleColor(context))
         Assert.assertNotNull(darkAppearance.widgetLearnMoreColor(context))
-        Assert.assertNotNull(autoAppearance.widgetFeeColor(context))
-        Assert.assertNotNull(autoAppearance.widgetDescColor(context))
+        Assert.assertNotNull(darkAppearance.widgetFeeColor(context))
+        Assert.assertNotNull(darkAppearance.widgetDescColor(context))
     }
 }
