@@ -285,6 +285,12 @@ class WidgetView @JvmOverloads constructor(
         }
     }
 
+    fun refresh() {
+        orderValue?.let {
+            updateOrderValue(it)
+        }
+    }
+
     private fun onResult(offers: ShippedOffers? = null, error: ShippedException? = null) {
         when {
             offers != null -> {
@@ -427,9 +433,7 @@ class WidgetView @JvmOverloads constructor(
     }
 
     override fun onAttachedToWindow() {
-        orderValue?.let {
-            updateOrderValue(it)
-        }
+        refresh()
         super.onAttachedToWindow()
     }
 

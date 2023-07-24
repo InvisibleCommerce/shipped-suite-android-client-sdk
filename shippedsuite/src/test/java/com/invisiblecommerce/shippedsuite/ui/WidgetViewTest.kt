@@ -51,6 +51,7 @@ class WidgetViewTest {
 
         val defaultOrderValue = BigDecimal.valueOf(129.99)
         widgetView.updateOrderValue(defaultOrderValue)
+        widgetView.refresh()
 
         widgetView.configuration.type = ShippedSuiteType.GREEN_AND_SHIELD
         Assert.assertEquals(widgetView.configuration.type, ShippedSuiteType.GREEN_AND_SHIELD)
